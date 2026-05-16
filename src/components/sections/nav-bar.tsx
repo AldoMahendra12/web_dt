@@ -52,7 +52,7 @@ export default function NavBar() {
               alt="Dakwah Tulungagung Logo"
               width={120}
               height={45}
-              className="h-[45px] w-auto"
+              className="h-[30px] sm:h-[45px] w-auto"
               priority
             />
           </Link>
@@ -80,9 +80,11 @@ export default function NavBar() {
 
         {/* Right: CTA + Mobile Hamburger */}
         <div className="flex items-center gap-4">
-          <Button onClick={openDonasi} variant="primary" className="hidden lg:inline-flex">
-            Donasi Sekarang
-          </Button>
+          <div className="hidden lg:block">
+            <Button onClick={openDonasi} variant="primary">
+              Donasi Sekarang
+            </Button>
+          </div>
 
           {/* Mobile hamburger */}
           <button
