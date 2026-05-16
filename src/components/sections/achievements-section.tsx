@@ -11,10 +11,10 @@ import { useDonasiDialog } from "@/components/ui/donasi-provider";
    ========================================= */
 
 const FLOATING_IMAGES = [
-  { src: "/activities/berbagi.jpg", alt: "Dakwah Tulungagung", position: "top-0 left-0 -rotate-[10deg]" },
-  { src: "/activities/pipanisasi.jpg", alt: "Pipanisasi", position: "bottom-0 left-[10%] rotate-[5deg]" },
-  { src: "/activities/safari.jpg", alt: "Safari Dakwah", position: "top-[10%] right-0 rotate-[15deg]" },
-  { src: "/hero-bg.jpg", alt: "Hero", position: "bottom-[10%] right-[5%] -rotate-[5deg]" },
+  { src: "/assets/live-kajian.jpeg",   alt: "Live Kajian",       position: "top-0 left-0 -rotate-[10deg]" },
+  { src: "/assets/jumat-berkah.jpeg",  alt: "Jumat Berkah",      position: "bottom-0 left-[10%] rotate-[5deg]" },
+  { src: "/assets/safari-dakwah.jpeg", alt: "Safari Dakwah",     position: "top-[10%] right-0 rotate-[15deg]" },
+  { src: "/assets/pelatihan.jpeg",     alt: "Pelatihan",         position: "bottom-[10%] right-[5%] -rotate-[5deg]" },
 ];
 
 function useCountUp(target: number, duration = 2500, trigger = false) {

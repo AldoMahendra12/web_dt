@@ -5,8 +5,8 @@ import type { ActivityItem } from "@/types";
 /* =========================================
    ActivitiesSection — Static Grid
    ─────────────────────────────────────
-   Removed infinite scroll animation for
-   better performance and direct visibility.
+   7 kegiatan dengan foto nyata dari
+   folder /activities dan /assets
    ========================================= */
 
 const ACTIVITIES: ActivityItem[] = [
@@ -24,7 +24,7 @@ const ACTIVITIES: ActivityItem[] = [
     label: "Wakaf Air",
     title: "Program Pipanisasi",
     description:
-      "Penyediaan akses air bersih melalui pembangunan pipa untuk masjid dan pemukiman warga.",
+      "Pembangunan sarana air bersih untuk wilayah yang kesulitan akses air layak konsumsi.",
   },
   {
     image: "/activities/safari.jpg",
@@ -32,7 +32,39 @@ const ACTIVITIES: ActivityItem[] = [
     label: "Edukasi Islami",
     title: "Safari Dakwah",
     description:
-      "Rangkaian kajian Islam ilmiah menghadirkan asatidzah untuk membina akidah masyarakat.",
+      "Rangkaian kajian menghadirkan asatidzah dari luar daerah untuk menyapa jamaah di Tulungagung.",
+  },
+  {
+    image: "/assets/live-kajian.jpeg",
+    alt: "Live Kajian",
+    label: "Dakwah",
+    title: "Live Kajian",
+    description:
+      "Siaran langsung kajian ilmu agama melalui platform digital yang dapat diakses di mana saja.",
+  },
+  {
+    image: "/assets/pelatihan.jpeg",
+    alt: "Pelatihan",
+    label: "Pendidikan",
+    title: "Pelatihan & Keterampilan",
+    description:
+      "Program pelatihan vokasional untuk meningkatkan kualitas dan kemandirian ekonomi umat.",
+  },
+  {
+    image: "/assets/safari-dakwah.jpeg",
+    alt: "Safari Dakwah Intensif",
+    label: "Kajian Intensif",
+    title: "Safari Dakwah Intensif",
+    description:
+      "Kunjungan dakwah terjadwal ke berbagai lokasi agar ilmu agama menjangkau seluruh pelosok.",
+  },
+  {
+    image: "/assets/jumat-berkah.jpeg",
+    alt: "Jumat Berkah",
+    label: "Sosial",
+    title: "Jumat Berkah",
+    description:
+      "Inisiatif berbagi makanan gratis setiap hari Jumat sebagai wujud kepedulian sosial.",
   },
 ];
 
@@ -76,11 +108,28 @@ export default function ActivitiesSection() {
           </p>
         </div>
 
-        {/* Static Grid (instead of infinite scroll) */}
+        {/* Grid — 3 kolom, 3 baris (total 7 kartu + 1 span) */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-          {ACTIVITIES.map((activity, i) => (
+          {/* Kartu 1-3 */}
+          {ACTIVITIES.slice(0, 3).map((activity, i) => (
             <ActivityCard key={`${activity.title}-${i}`} activity={activity} />
           ))}
+
+          {/* Kartu 4: Live Kajian — span 2 kolom (featured) */}
+          <div className="lg:col-span-2">
+            <ActivityCard activity={ACTIVITIES[3]} />
+          </div>
+
+          {/* Kartu 5: Pelatihan */}
+          <ActivityCard key={ACTIVITIES[4].title} activity={ACTIVITIES[4]} />
+
+          {/* Kartu 6: Safari Dakwah */}
+          <ActivityCard key={ACTIVITIES[5].title} activity={ACTIVITIES[5]} />
+
+          {/* Kartu 7: Jumat Berkah — span 2 kolom (featured) */}
+          <div className="lg:col-span-2">
+            <ActivityCard activity={ACTIVITIES[6]} />
+          </div>
         </div>
       </div>
     </section>
