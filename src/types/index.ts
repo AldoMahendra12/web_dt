@@ -77,6 +77,7 @@ export interface ProgramItem {
   title: string;
   subtitle: string;
   description: string;
+  fullDescription?: string;
   icon: string;
 }
 

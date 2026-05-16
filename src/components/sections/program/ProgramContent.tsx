@@ -92,11 +92,6 @@ function ProgramCard({
       transition={{ delay: index * 0.1 }}
       className="group bg-white rounded-2xl p-8 flex flex-col items-center text-center transition-all duration-300 hover:shadow-card-hover hover:-translate-y-1 border border-border-default/50"
     >
-      {/* Subtitle badge */}
-      <span className="text-[11px] font-bold tracking-[2px] text-primary/70 uppercase mb-2">
-        {item.subtitle}
-      </span>
-
       {/* Title */}
       <h3 className="text-xl font-bold text-text-heading mb-3 group-hover:text-primary transition-colors duration-300">
         {item.title}

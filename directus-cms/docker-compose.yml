@@ -1,0 +1,33 @@
+services:
+  directus:
+    image: directus/directus:11.17.0
+    container_name: dakwah-tulungagung-cms
+    ports:
+      - "8055:8055"
+    volumes:
+      - ./database:/directus/database
+      - ./uploads:/directus/uploads
+      - ./extensions:/directus/extensions
+    environment:
+      # App
+      SECRET: "dakwah-tlg-cms-2026-secret-k9x7m2p4q"
+      PUBLIC_URL: "http://localhost:8055"
+
+      # Database — SQLite (tidak perlu install DB terpisah)
+      DB_CLIENT: "sqlite3"
+      DB_FILENAME: "/directus/database/data.db"
+
+      # Admin awal (hanya digunakan saat bootstrap pertama)
+      ADMIN_EMAIL: "admin@dakwahtulungagung.or.id"
+      ADMIN_PASSWORD: "DakwahTlgAgung2026!"
+
+      # CORS — izinkan akses dari Next.js
+      CORS_ENABLED: "true"
+      CORS_ORIGIN: "http://localhost:3000"
+
+      # Websocket
+      WEBSOCKETS_ENABLED: "true"
+
+      # Log
+      LOG_LEVEL: "info"
+    restart: unless-stopped

@@ -85,9 +85,6 @@ export default function ProgramDialog({ open, program, onClose }: ProgramDialogP
 
           {/* Title Area */}
           <div className="mb-6">
-            <span className="inline-block px-3 py-1.5 rounded-md text-xs font-bold tracking-[2px] text-white/90 uppercase mb-3" style={{ background: "rgba(255, 255, 255, 0.1)", border: "1px solid rgba(255, 255, 255, 0.1)" }}>
-              {program.subtitle}
-            </span>
             <h2 className="text-white text-3xl sm:text-4xl font-bold tracking-tight mb-4">
               {program.title}
             </h2>
@@ -99,7 +96,7 @@ export default function ProgramDialog({ open, program, onClose }: ProgramDialogP
           {/* Description Section */}
           <div className="mb-8 max-h-[40vh] overflow-y-auto pr-2 custom-scrollbar">
             <p className="text-white/80 text-base leading-relaxed">
-              {program.description}
+              {program.fullDescription || program.description}
             </p>
           </div>
 
