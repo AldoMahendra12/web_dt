@@ -18,6 +18,7 @@ interface ButtonProps {
   onClick?: (e: React.MouseEvent) => void;
   target?: string;
   rel?: string;
+  disabled?: boolean;
 }
 
 const variantClasses: Record<string, string> = {
@@ -45,9 +46,11 @@ export default function Button({
   onClick,
   target,
   rel,
+  disabled = false,
 }: ButtonProps) {
   const classes = [
-    "inline-flex items-center justify-center gap-2.5 font-semibold transition-all duration-300 cursor-pointer rounded-md relative overflow-hidden",
+    "inline-flex items-center justify-center gap-2.5 font-semibold transition-all duration-300 rounded-md relative overflow-hidden",
+    disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer",
     variantClasses[variant],
     sizeClasses[size],
     className,
@@ -64,7 +67,7 @@ export default function Button({
   }
 
   return (
-    <button onClick={onClick} className={classes}>
+    <button onClick={onClick} className={classes} disabled={disabled}>
       <span className="relative z-10 flex items-center justify-center gap-2 whitespace-nowrap w-full">{children}</span>
     </button>
   );
