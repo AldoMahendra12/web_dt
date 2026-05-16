@@ -6,7 +6,7 @@
 
 export default function VideoSection() {
   return (
-    <section className="py-[60px] sm:py-[100px] bg-bg-light">
+    <section className="py-[60px] sm:py-[100px] bg-white">
       <div className="max-w-[1200px] mx-auto px-5">
         {/* Header */}
         <div className="text-center mb-[50px]">
