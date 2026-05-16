@@ -1,0 +1,3 @@
+# Jangan ikutkan folder CMS self-hosted ke Vercel
+directus-cms/
+legacy/
