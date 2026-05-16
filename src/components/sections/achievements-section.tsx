@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import Button from "@/components/ui/button";
 import { useDonasiDialog } from "@/components/ui/donasi-provider";
 
 /* =========================================
@@ -45,6 +44,14 @@ function useCountUp(target: number, duration = 2500, trigger = false) {
   return count;
 }
 
+/** Format angka Rupiah singkat: 12500000 → "12,5 Jt" */
+function formatRupiah(n: number): string {
+  if (n >= 1_000_000_000) return (n / 1_000_000_000).toFixed(1).replace(".", ",") + " M";
+  if (n >= 1_000_000) return (n / 1_000_000).toFixed(1).replace(".", ",") + " Jt";
+  if (n >= 1_000) return (n / 1_000).toFixed(0) + " Rb";
+  return n.toLocaleString("id-ID");
+}
+
 export default function AchievementsSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const [visible, setVisible] = useState(false);
@@ -67,7 +74,9 @@ export default function AchievementsSection() {
     return () => observer.disconnect();
   }, []);
 
-  const count = useCountUp(2500000, 2500, visible);
+  const countYoutube  = useCountUp(2500000, 2500, visible);
+  const countDonasi   = useCountUp(12500000, 2200, visible); // Rp 12.500.000
+  const countPenerima = useCountUp(340, 2000, visible);      // 340 penerima
 
   return (
     <section ref={sectionRef} className="py-[80px] xl:py-[140px] bg-white overflow-hidden">
@@ -91,17 +100,52 @@ export default function AchievementsSection() {
         ))}
 
         {/* Center Content */}
-        <div className="text-center z-10">
+        <div className="text-center z-10 w-full">
+          {/* Main Counter — YouTube */}
           <p className="text-lg sm:text-2xl font-semibold text-text-heading my-[15px]">
             Menjangkau lebih banyak umat dengan lebih dari
           </p>
           <h2 className="font-serif text-[80px] sm:text-[120px] xl:text-[160px] font-normal leading-none m-0 text-text-heading tracking-[-5px]">
-            {count.toLocaleString("id-ID")}+
+            {countYoutube.toLocaleString("id-ID")}+
           </h2>
           <p className="text-lg sm:text-2xl font-semibold text-text-heading my-[15px]">
             Pemirsa YouTube Setiap Tahunnya
           </p>
-          <button 
+
+          {/* Sub Stats Row */}
+          <div className="mt-10 mb-2 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-12">
+            {/* Stat: Donasi Dana Riba */}
+            <div className="flex flex-col items-center gap-1 px-8 py-5 rounded-2xl border border-border-default bg-bg-light/60 backdrop-blur-sm">
+              <span className="text-xs font-semibold uppercase tracking-widest text-text-light mb-1">
+                Dana Riba Tersalurkan
+              </span>
+              <span className="font-serif text-[42px] sm:text-[52px] font-normal leading-none text-text-heading tracking-tight">
+                Rp {formatRupiah(countDonasi)}+
+              </span>
+              <span className="text-xs text-text-light mt-1">
+                Disalurkan untuk kebutuhan umat
+              </span>
+            </div>
+
+            {/* Divider — desktop only */}
+            <div className="hidden sm:block w-px h-20 bg-border-default" />
+
+            {/* Stat: Penerima Donasi */}
+            <div className="flex flex-col items-center gap-1 px-8 py-5 rounded-2xl border border-border-default bg-bg-light/60 backdrop-blur-sm">
+              <span className="text-xs font-semibold uppercase tracking-widest text-text-light mb-1">
+                Penerima Donasi
+              </span>
+              <span className="font-serif text-[42px] sm:text-[52px] font-normal leading-none text-text-heading tracking-tight">
+                {countPenerima.toLocaleString("id-ID")}+
+              </span>
+              <span className="text-xs text-text-light mt-1">
+                Individu & keluarga terbantu
+              </span>
+            </div>
+          </div>
+
+          {/* CTA Button */}
+          <button
             onClick={openDonasi}
             className="mt-[30px] inline-flex items-center justify-center px-10 py-4 rounded-xl text-white font-bold text-lg relative overflow-hidden transition-all duration-500 hover:scale-105 hover:shadow-2xl active:scale-95 group"
             style={{
