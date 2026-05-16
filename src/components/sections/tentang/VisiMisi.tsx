@@ -40,6 +40,13 @@ export default function VisiMisi({ data }: VisiMisiProps) {
             </div>
           </div>
 
+          {/* Misi Header */}
+          <div className="text-center pt-4">
+            <span className="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-xs font-bold tracking-[2px] text-primary uppercase mb-2 backdrop-blur-sm border border-primary/10">
+              Misi
+            </span>
+          </div>
+
           {/* Misi Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
             {data.misi.map((item, index) => (
