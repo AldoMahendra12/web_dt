@@ -1,0 +1,12 @@
+{
+  "name": "directus-cms",
+  "version": "1.0.0",
+  "description": "Directus CMS - Dakwah Tulungagung",
+  "scripts": {
+    "start": "directus start",
+    "bootstrap": "directus bootstrap"
+  },
+  "dependencies": {
+    "directus": "10.13.4"
+  }
+}

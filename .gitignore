@@ -39,3 +39,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# directus cms (self-hosted)
+directus-cms/node_modules/
+directus-cms/database/
+directus-cms/uploads/
+directus-cms/.env

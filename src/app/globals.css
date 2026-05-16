@@ -1,26 +1,182 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* =========================================
+   DESIGN TOKENS — Extracted from Homepage
+   Dakwah Tulungagung Official
+   ========================================= */
+
+@theme {
+  /* ── Colors ── */
+  --color-primary: #00716a;
+  --color-primary-dark: #005a54;
+  --color-primary-10: rgba(0, 113, 106, 0.1);
+  --color-primary-15: rgba(0, 113, 106, 0.15);
+  --color-primary-20: rgba(0, 113, 106, 0.2);
+
+  --color-text: #333333;
+  --color-text-light: #666666;
+  --color-text-heading: #1a1a1a;
+  --color-text-muted: #444444;
+  --color-text-faint: #888888;
+
+  --color-bg-white: #ffffff;
+  --color-bg-light: #f8f9fa;
+  --color-bg-card: #f5f7f8;
+  --color-bg-dark: #050505;
+
+  --color-border-default: #e2e8f0;
+  --color-border-separator: #d1d1d1;
+
+  --color-accent-teal: #3fe0d0;
+
+  /* ── Font Families ── */
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-arabic: "Amiri", ui-serif, Georgia, serif;
+  --font-serif: Georgia, "Times New Roman", serif;
+
+  /* ── Font Sizes ── */
+  --text-xs: 0.875rem;      /* 14px */
+  --text-sm: 0.9375rem;     /* 15px */
+  --text-base: 1rem;        /* 16px */
+  --text-lg: 1.125rem;      /* 18px */
+  --text-xl: 1.25rem;       /* 20px */
+  --text-2xl: 1.5rem;       /* 24px */
+  --text-3xl: 2rem;         /* 32px */
+  --text-4xl: 2.25rem;      /* 36px */
+  --text-5xl: 2.625rem;     /* 42px */
+  --text-6xl: 3rem;         /* 48px */
+  --text-7xl: 3.5rem;       /* 56px */
+  --text-8xl: 4.25rem;      /* 68px */
+  --text-impact: 10rem;     /* 160px */
+
+  /* ── Border Radius ── */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 16px;
+  --radius-2xl: 16px;
+  --radius-3xl: 16px;
+  --radius-full: 9999px;
+
+  /* ── Box Shadows ── */
+  --shadow-header: 0 4px 20px rgba(0, 0, 0, 0.05);
+  --shadow-card-hover: 0 20px 40px rgba(0, 0, 0, 0.05);
+  --shadow-floating: 0 10px 30px rgba(0, 0, 0, 0.1);
+  --shadow-video: 0 40px 100px rgba(0, 0, 0, 0.1);
+  --shadow-cta: 0 10px 20px rgba(0, 113, 106, 0.15);
+  --shadow-cta-alt: 0 10px 20px rgba(0, 113, 106, 0.2);
+  --shadow-glow: 0 0 10px #fff, 0 0 20px rgba(255, 255, 255, 0.5);
+
+  /* ── Container ── */
+  --container-max: 1200px;
+
+  /* ── Animations ── */
+  --animate-ticker: ticker 12s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+  --animate-scroll-x: scroll-horizontal 30s linear infinite;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* ── Keyframes ── */
+@keyframes ticker {
+  0%, 18% { transform: translateY(0); }
+  20%, 38% { transform: translateY(-24px); }
+  40%, 58% { transform: translateY(-48px); }
+  60%, 78% { transform: translateY(-72px); }
+  80%, 100% { transform: translateY(-96px); }
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+@keyframes scroll-horizontal {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(calc(-50% - 15px)); }
+}
+
+/* ── Base Reset ── */
+html {
+  /* Lenis handles smooth scrolling — no native scroll-behavior */
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  color: var(--color-text);
+  background-color: var(--color-bg-white);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Utility: hide scrollbar ── */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* ── Button: gradient hover animation ── */
+.btn-gradient-hover::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(63, 224, 208, 0.3) 0%,
+    rgba(0, 113, 106, 0.9) 40%,
+    rgba(0, 90, 84, 1) 60%,
+    rgba(63, 224, 208, 0.3) 100%
+  );
+  background-size: 300% 300%;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  border-radius: inherit;
+  z-index: 1;
+}
+.btn-gradient-hover:hover::before {
+  opacity: 1;
+  animation: btn-gradient-shift 2s ease infinite;
+}
+
+@keyframes btn-gradient-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ── Button: danger hover animation ── */
+.btn-danger-hover::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(239, 68, 68, 0.3) 0%,
+    rgba(220, 38, 38, 0.9) 40%,
+    rgba(153, 27, 27, 1) 60%,
+    rgba(239, 68, 68, 0.3) 100%
+  );
+  background-size: 300% 300%;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  border-radius: inherit;
+  z-index: 1;
+}
+.btn-danger-hover:hover::before {
+  opacity: 1;
+  animation: btn-gradient-shift 2s ease infinite;
+}
+
+/* ── Dialog: glassmorphism overlay ── */
+.dialog-backdrop {
+  animation: dialog-fade-in 0.3s ease forwards;
+}
+.dialog-panel {
+  animation: dialog-slide-up 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes dialog-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes dialog-slide-up {
+  from { opacity: 0; transform: translateY(30px) scale(0.96); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
 }
