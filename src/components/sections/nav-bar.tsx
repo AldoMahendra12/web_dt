@@ -79,12 +79,8 @@ export default function NavBar() {
         </div>
 
         {/* Right: CTA + Mobile Hamburger */}
-        <div className="flex items-center gap-3 sm:gap-4">
-          <Button 
-            onClick={openDonasi} 
-            variant="primary" 
-            className="text-xs px-3 py-2 sm:text-sm sm:px-6 sm:py-3 whitespace-nowrap"
-          >
+        <div className="flex items-center gap-4">
+          <Button onClick={openDonasi} variant="primary" className="hidden lg:inline-flex">
             Donasi Sekarang
           </Button>
 
@@ -136,6 +132,11 @@ export default function NavBar() {
                 </Link>
               </li>
             ))}
+            <li className="pt-4 mt-2 border-t border-border-default">
+              <Button onClick={() => { setMobileOpen(false); openDonasi(); }} variant="primary" className="w-full">
+                Donasi Sekarang
+              </Button>
+            </li>
           </ul>
         </nav>
       </div>
