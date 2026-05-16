@@ -102,40 +102,40 @@ export default function AchievementsSection() {
         {/* Center Content */}
         <div className="text-center z-10 w-full">
           {/* Main Counter — YouTube */}
-          <p className="text-lg sm:text-2xl font-semibold text-text-heading my-[15px]">
+          <p className="text-sm sm:text-lg md:text-2xl font-semibold text-text-heading my-[10px] sm:my-[15px]">
             Menjangkau lebih banyak umat dengan lebih dari
           </p>
-          <h2 className="font-serif text-[80px] sm:text-[120px] xl:text-[160px] font-normal leading-none m-0 text-text-heading tracking-[-5px]">
+          <h2 className="font-serif text-[60px] sm:text-[80px] md:text-[120px] xl:text-[160px] font-normal leading-none m-0 text-text-heading tracking-[-2px] sm:tracking-[-5px]">
             {countYoutube.toLocaleString("id-ID")}+
           </h2>
-          <p className="text-lg sm:text-2xl font-semibold text-text-heading my-[15px]">
+          <p className="text-sm sm:text-lg md:text-2xl font-semibold text-text-heading my-[10px] sm:my-[15px]">
             Pemirsa YouTube Setiap Tahunnya
           </p>
 
           {/* Sub Stats Row */}
-          <div className="mt-8 mb-2 flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-8">
+          <div className="mt-6 sm:mt-8 mb-2 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-8">
             {/* Stat: Donasi Dana Riba */}
-            <div className="flex flex-col items-center gap-1 px-6 py-3">
-              <span className="text-xs font-semibold uppercase tracking-widest text-text-light mb-1">
+            <div className="flex flex-col items-center gap-1 px-4 sm:px-6 py-2 sm:py-3 text-center">
+              <span className="text-[10px] sm:text-xs font-semibold uppercase tracking-widest text-text-light mb-1">
                 Dana Riba Tersalurkan
               </span>
-              <span className="font-serif text-[42px] sm:text-[52px] font-normal leading-none text-text-heading tracking-tight">
+              <span className="font-serif text-[32px] sm:text-[42px] md:text-[52px] font-normal leading-none text-text-heading tracking-tight">
                 Rp {formatRupiah(countDonasi)}+
               </span>
-              <span className="text-xs text-text-light mt-1">
+              <span className="text-[10px] sm:text-xs text-text-light mt-1">
                 Disalurkan untuk kebutuhan umat
               </span>
             </div>
 
             {/* Stat: Penerima Donasi */}
-            <div className="flex flex-col items-center gap-1 px-6 py-3">
-              <span className="text-xs font-semibold uppercase tracking-widest text-text-light mb-1">
+            <div className="flex flex-col items-center gap-1 px-4 sm:px-6 py-2 sm:py-3 text-center">
+              <span className="text-[10px] sm:text-xs font-semibold uppercase tracking-widest text-text-light mb-1">
                 Penerima Donasi
               </span>
-              <span className="font-serif text-[42px] sm:text-[52px] font-normal leading-none text-text-heading tracking-tight">
+              <span className="font-serif text-[32px] sm:text-[42px] md:text-[52px] font-normal leading-none text-text-heading tracking-tight">
                 {countPenerima.toLocaleString("id-ID")}+
               </span>
-              <span className="text-xs text-text-light mt-1">
+              <span className="text-[10px] sm:text-xs text-text-light mt-1">
                 Individu & keluarga terbantu
               </span>
             </div>

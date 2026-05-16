@@ -62,23 +62,23 @@ const ACTIVITIES: ActivityItem[] = [
 
 function ActivityCard({ activity }: { activity: ActivityItem }) {
   return (
-    <div className="relative flex-none w-[340px] h-[420px] rounded-2xl overflow-hidden group cursor-pointer">
+    <div className="relative flex-none w-[280px] sm:w-[340px] h-[360px] sm:h-[420px] rounded-2xl overflow-hidden group cursor-pointer">
       <Image
         src={activity.image}
         alt={activity.alt}
         fill
         className="object-cover transition-transform duration-700 group-hover:scale-110"
-        sizes="340px"
+        sizes="(max-width: 640px) 280px, 340px"
       />
       {/* Gradient overlay */}
       <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent transition-opacity duration-500" />
       {/* Content */}
-      <div className="absolute bottom-0 left-0 right-0 p-7 text-white flex flex-col justify-end">
+      <div className="absolute bottom-0 left-0 right-0 p-5 sm:p-7 text-white flex flex-col justify-end">
         <Badge className="mb-3 w-fit text-xs">{activity.label}</Badge>
-        <h3 className="text-xl font-extrabold tracking-[-0.5px] mb-2 text-white leading-snug">
+        <h3 className="text-lg sm:text-xl font-extrabold tracking-[-0.5px] mb-2 text-white leading-snug">
           {activity.title}
         </h3>
-        <p className="text-sm text-white/75 leading-relaxed line-clamp-3">
+        <p className="text-xs sm:text-sm text-white/75 leading-relaxed line-clamp-3">
           {activity.description}
         </p>
       </div>
@@ -94,7 +94,7 @@ export default function ActivitiesSection() {
     <section className="py-20 sm:py-28 bg-white overflow-hidden">
       <div className="max-w-[1200px] mx-auto px-5 mb-12 sm:mb-16">
         {/* Header */}
-        <h2 className="text-4xl sm:text-5xl md:text-6xl font-extrabold leading-tight tracking-[-2px] text-text-heading mb-6 max-w-[900px]">
+        <h2 className="text-3xl sm:text-5xl md:text-6xl font-extrabold leading-tight tracking-[-1px] sm:tracking-[-2px] text-text-heading mb-6 max-w-[900px]">
           Kegiatan rutin kami untuk menebar{" "}
           <span className="text-primary italic font-medium">kebaikan</span> di{" "}
           Tulungagung

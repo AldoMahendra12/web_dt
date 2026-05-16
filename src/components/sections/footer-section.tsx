@@ -76,7 +76,7 @@ export default function FooterSection() {
   return (
     <footer className="pt-5 pb-[60px] bg-white">
       <div className="max-w-[1200px] mx-auto px-5">
-        <div className="bg-bg-dark rounded-md p-[50px_40px] sm:p-[70px_80px] text-white">
+        <div className="bg-bg-dark rounded-md p-[40px_20px] sm:p-[70px_80px] text-white">
           {/* Top: Brand + Links */}
           <div className="flex flex-col lg:flex-row justify-between items-start mb-[50px] gap-10 lg:gap-[40px]">
             {/* Brand */}

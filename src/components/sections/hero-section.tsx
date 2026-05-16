@@ -38,11 +38,11 @@ export default function HeroSection() {
   }, [isPaused]);
 
   return (
-    <section className="pt-5 pb-15 px-5 sm:px-0">
+    <section className="pt-5 pb-10 sm:pb-16">
       <div className="max-w-[1200px] mx-auto px-5">
         {/* Card wrapper — hover pauses the slider */}
         <div
-          className="relative h-[450px] sm:h-[550px] rounded-2xl overflow-hidden flex items-center"
+          className="relative h-[400px] sm:h-[550px] rounded-2xl overflow-hidden flex items-center"
           onMouseEnter={() => setIsPaused(true)}
           onMouseLeave={() => setIsPaused(false)}
         >
@@ -71,7 +71,7 @@ export default function HeroSection() {
               <div className="h-6 overflow-hidden">
                 <div className="flex flex-col animate-ticker">
                   {TAGLINES.map((tagline, i) => (
-                    <span key={i} className="h-6 flex items-center text-lg">
+                    <span key={i} className="h-6 flex items-center text-sm sm:text-lg">
                       {tagline}
                     </span>
                   ))}
@@ -79,7 +79,7 @@ export default function HeroSection() {
               </div>
             </div>
 
-            <h1 className="font-sans text-[36px] sm:text-[48px] xl:text-[68px] font-extrabold leading-none mb-[15px] tracking-[-2px]">
+            <h1 className="font-sans text-[32px] sm:text-[48px] xl:text-[68px] font-extrabold leading-none mb-[15px] tracking-[-1px] sm:tracking-[-2px]">
               Dakwah Tulungagung Official
             </h1>
 

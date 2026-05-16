@@ -68,7 +68,8 @@ export default function DonasiDialog({ open, onClose }: DonasiDialogProps) {
         <div className="absolute -bottom-[20%] -right-[20%] w-[50%] h-[50%] rounded-full bg-[#d4a843]/20 blur-[60px] pointer-events-none" />
 
         {/* Content Container */}
-        <div className="p-8 relative z-10">
+        {/* Content Container */}
+        <div className="p-6 sm:p-8 relative z-10">
           {/* Header */}
           <div className="flex justify-between items-start mb-6">
             <div className="w-12 h-12 rounded-md flex items-center justify-center" style={{ background: "rgba(255, 255, 255, 0.1)", border: "1px solid rgba(255, 255, 255, 0.1)" }}>
@@ -81,7 +82,7 @@ export default function DonasiDialog({ open, onClose }: DonasiDialogProps) {
             <Button
               onClick={onClose}
               variant="danger"
-              className="flex items-center gap-2 px-4 py-2 text-sm whitespace-nowrap"
+              className="flex items-center gap-2 px-3 sm:px-4 py-2 text-sm whitespace-nowrap"
             >
               Tutup 
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -92,13 +93,13 @@ export default function DonasiDialog({ open, onClose }: DonasiDialogProps) {
 
           {/* Title Area */}
           <div className="mb-2">
-            <h3 className="text-white/80 text-lg font-medium mb-1">Bank Syariah Indonesia</h3>
-            <h2 className="text-white text-4xl font-bold tracking-tight mb-4 font-mono text-center sm:text-left">7899 9978 49</h2>
+            <h3 className="text-white/80 text-base sm:text-lg font-medium mb-1">Bank Syariah Indonesia</h3>
+            <h2 className="text-white text-3xl sm:text-4xl font-bold tracking-tight mb-4 font-mono text-center sm:text-left">7899 9978 49</h2>
             <div className="flex flex-wrap gap-2 mb-6">
-              <span className="px-3 py-1.5 rounded-md text-xs font-medium text-white/90" style={{ background: "rgba(255, 255, 255, 0.1)", border: "1px solid rgba(255, 255, 255, 0.1)" }}>
+              <span className="px-2 sm:px-3 py-1.5 rounded-md text-[10px] sm:text-xs font-medium text-white/90" style={{ background: "rgba(255, 255, 255, 0.1)", border: "1px solid rgba(255, 255, 255, 0.1)" }}>
                 Dakwah Tulungagung Official
               </span>
-              <span className="px-3 py-1.5 rounded-md text-xs font-medium text-white/90" style={{ background: "rgba(255, 255, 255, 0.1)", border: "1px solid rgba(255, 255, 255, 0.1)" }}>
+              <span className="px-2 sm:px-3 py-1.5 rounded-md text-[10px] sm:text-xs font-medium text-white/90" style={{ background: "rgba(255, 255, 255, 0.1)", border: "1px solid rgba(255, 255, 255, 0.1)" }}>
                 Kode Bank: 451
               </span>
             </div>
@@ -106,7 +107,7 @@ export default function DonasiDialog({ open, onClose }: DonasiDialogProps) {
 
           {/* QR Code Section */}
           <div className="flex justify-center mb-6">
-            <div className="w-48 h-48 rounded-md overflow-hidden p-2 flex items-center justify-center transition-transform duration-300 hover:scale-105" style={{ background: "rgba(255, 255, 255, 0.1)", border: "1px solid rgba(255, 255, 255, 0.2)" }}>
+            <div className="w-40 sm:w-48 h-40 sm:h-48 rounded-md overflow-hidden p-2 flex items-center justify-center transition-transform duration-300 hover:scale-105" style={{ background: "rgba(255, 255, 255, 0.1)", border: "1px solid rgba(255, 255, 255, 0.2)" }}>
               <div className="relative w-full h-full rounded-md overflow-hidden bg-white flex items-center justify-center">
                 {/* User requested QR code from photo 2 */}
                 <Image 
@@ -123,17 +124,17 @@ export default function DonasiDialog({ open, onClose }: DonasiDialogProps) {
           <div className="w-full h-[1px] mb-6" style={{ background: "linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0) 100%)" }} />
 
           {/* Footer Area */}
-          <div className="flex justify-between items-center">
+          <div className="flex flex-col sm:flex-row justify-between items-center gap-4 text-center sm:text-left">
             <div>
-              <p className="text-white text-xl font-bold leading-tight">Konfirmasi</p>
-              <p className="text-white/60 text-sm">via WhatsApp</p>
+              <p className="text-white text-lg sm:text-xl font-bold leading-tight">Konfirmasi</p>
+              <p className="text-white/60 text-xs sm:text-sm">via WhatsApp</p>
             </div>
             <Button
               href="https://wa.me/6285123456789?text=Assalamu%27alaikum%2C%20saya%20ingin%20konfirmasi%20donasi"
               target="_blank"
               rel="noopener noreferrer"
               variant="primary"
-              className="px-6 py-3"
+              className="px-6 py-3 w-full sm:w-auto"
             >
               Hubungi Kami
             </Button>
