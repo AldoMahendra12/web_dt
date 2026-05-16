@@ -16,7 +16,7 @@ export default function MosqueCard({ mosque, onClick }: MosqueCardProps) {
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      whileHover={{ y: -5, shadow: "var(--shadow-card-hover)" }}
+      whileHover={{ y: -5, boxShadow: "var(--shadow-card-hover)" }}
       onClick={onClick}
       className="group relative cursor-pointer overflow-hidden rounded-md border border-border-default bg-white flex flex-col md:flex-row transition-all duration-300"
     >

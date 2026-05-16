@@ -38,3 +38,8 @@ export interface Kantor {
   maps_embed_url: string;
   whatsapp_number: string;
 }
+
+export interface Kontak {
+  telepon: string | null;
+  email: string | null;
+}
