@@ -22,30 +22,30 @@ export const visiMisiData: VisiMisi = {
 
 export const strukturData: StrukturData = {
   pembina: [
-    { nama: "Ustadz Anwar zen", jabatan: "Pembina", foto: "/assets/avatar.png" },
-    { nama: "Ustadz imam Hambali", jabatan: "Pembina", foto: "/assets/avatar.png" },
-    { nama: "Bpk Abdul qodir Hasan", jabatan: "Pembina", foto: "/assets/avatar.png" },
+    { nama: "Ustadz Anwar Zen", jabatan: "Pembina", foto: "/assets/avatar.png" },
+    { nama: "Ustadz Imam Hambali", jabatan: "Pembina", foto: "/assets/avatar.png" },
+    { nama: "Bpk Abdul Qodir Hasan", jabatan: "Pembina", foto: "/assets/avatar.png" },
   ],
   pengawas: [
     { nama: "Ustadz Muhammad Yusuf", jabatan: "Pengawas", foto: "/assets/avatar.png" },
-    { nama: "Ustadz firdaus", jabatan: "Pengawas", foto: "/assets/avatar.png" },
+    { nama: "Ustadz Firdaus", jabatan: "Pengawas", foto: "/assets/avatar.png" },
     { nama: "Ustadz Nasir fi Rahmatullah", jabatan: "Pengawas", foto: "/assets/avatar.png" },
   ],
   pengurus: [
     { nama: "Moh Shohibul Umam", jabatan: "Ketua", foto: "/assets/avatar.png" },
-    { nama: "aji Waskito hidayatullah", jabatan: "Sekertaris", foto: "/assets/avatar.png" },
-    { nama: "Muh irsyadsyah", jabatan: "Bendahara", foto: "/assets/avatar.png" },
+    { nama: "Aji Waskito Hidayatullah", jabatan: "Sekertaris", foto: "/assets/avatar.png" },
+    { nama: "Muh Irsyadsyah", jabatan: "Bendahara", foto: "/assets/avatar.png" },
   ],
   anggota: [
-    { nama: "Mochammad Arjun naja", jabatan: "Anggota", foto: "/assets/avatar.png" },
-    { nama: "Anang Dwi prastia", jabatan: "Anggota", foto: "/assets/avatar.png" },
+    { nama: "Mochammad Arjun Naja", jabatan: "Anggota", foto: "/assets/avatar.png" },
+    { nama: "Anang Dwi Prastia", jabatan: "Anggota", foto: "/assets/avatar.png" },
     { nama: "Moch Harris Ardianto", jabatan: "Anggota", foto: "/assets/avatar.png" },
     { nama: "Rizki Kurniansyah", jabatan: "Anggota", foto: "/assets/avatar.png" },
-    { nama: "Aldo Mahendra putra", jabatan: "Anggota", foto: "/assets/avatar.png" },
-    { nama: "Akhmad Cahyo prihandoko", jabatan: "Anggota", foto: "/assets/avatar.png" },
-    { nama: "Ahmad Wadid rifai'i", jabatan: "Anggota", foto: "/assets/avatar.png" },
-    { nama: "Bayu anugrah", jabatan: "Anggota", foto: "/assets/avatar.png" },
-    { nama: "Bagus Nur huda", jabatan: "Anggota", foto: "/assets/avatar.png" },
+    { nama: "Aldo Mahendra Putra", jabatan: "Anggota", foto: "/assets/avatar.png" },
+    { nama: "Akhmad Cahyo Prihandoko", jabatan: "Anggota", foto: "/assets/avatar.png" },
+    { nama: "Ahmad Wadid Rifai'i", jabatan: "Anggota", foto: "/assets/avatar.png" },
+    { nama: "Bayu Anugrah", jabatan: "Anggota", foto: "/assets/avatar.png" },
+    { nama: "Bagus Nur Huda", jabatan: "Anggota", foto: "/assets/avatar.png" },
     { nama: "Aziz Nurkartikahadi", jabatan: "Anggota", foto: "/assets/avatar.png" },
     { nama: "Hermansah", jabatan: "Anggota", foto: "/assets/avatar.png" },
   ]
