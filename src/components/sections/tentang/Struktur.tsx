@@ -35,7 +35,9 @@ const PersonCard = ({ person }: { person: Pengurus }) => {
       
       {/* Text Content */}
       <div className="absolute bottom-0 left-0 w-full p-6 text-white translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
-        <h3 className="text-xl font-bold mb-1">{person.nama}</h3>
+        <h3 className="text-base sm:text-lg font-bold mb-1 whitespace-nowrap overflow-hidden text-ellipsis">
+          {person.nama}
+        </h3>
         <p className="text-white/70 text-sm font-medium">{person.jabatan}</p>
       </div>
     </div>
