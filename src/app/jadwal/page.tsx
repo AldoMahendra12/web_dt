@@ -4,7 +4,7 @@ import { useState } from "react";
 import NavBar from "@/components/sections/nav-bar";
 import FooterSection from "@/components/sections/footer-section";
 import JadwalHero from "@/components/sections/jadwal/JadwalHero";
-import MosqueGrid from "@/components/sections/jadwal/MosqueGrid";
+import JadwalComingSoon from "@/components/sections/jadwal/ComingSoon";
 
 export default function JadwalPage() {
   const [type, setType] = useState<"kajian" | "khutbah">("kajian");
@@ -14,7 +14,7 @@ export default function JadwalPage() {
       <NavBar />
       <main className="flex-1">
         <JadwalHero type={type} onTypeChange={setType} />
-        <MosqueGrid type={type} />
+        <JadwalComingSoon />
       </main>
       <FooterSection />
     </div>

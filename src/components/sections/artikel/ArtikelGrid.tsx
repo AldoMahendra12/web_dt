@@ -273,20 +273,56 @@ export default function ArtikelGrid({
           </div>
         )}
 
-        {/* Empty state */}
+        {/* Coming Soon state */}
         {!loading && articles.length === 0 && (
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="py-24 text-center"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+            className="py-24 flex flex-col items-center text-center"
           >
-            <p className="text-4xl mb-4">🔍</p>
-            <h3 className="text-xl font-bold text-text-heading mb-2">
-              Tidak ada artikel ditemukan
+            {/* Decorative ring */}
+            <div className="relative mb-8">
+              <div className="w-32 h-32 rounded-full bg-gradient-to-br from-primary/10 to-primary/30 flex items-center justify-center">
+                <div className="w-20 h-20 rounded-full bg-gradient-to-br from-primary/20 to-primary/50 flex items-center justify-center">
+                  <span className="text-4xl">✨</span>
+                </div>
+              </div>
+              {/* Orbiting dot */}
+              <motion.div
+                animate={{ rotate: 360 }}
+                transition={{ duration: 6, repeat: Infinity, ease: "linear" }}
+                className="absolute inset-0"
+              >
+                <div className="absolute top-1 left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-primary shadow-lg shadow-primary/40" />
+              </motion.div>
+            </div>
+
+            {/* Badge */}
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-semibold uppercase tracking-widest mb-5">
+              <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
+              Segera Hadir
+            </div>
+
+            <h3 className="text-3xl font-bold text-text-heading mb-3 font-sans">
+              Coming Soon
             </h3>
-            <p className="text-text-light text-sm">
-              Coba ubah filter atau kata kunci pencarian Anda.
+            <p className="text-text-light text-sm max-w-sm leading-relaxed">
+              Konten sedang dipersiapkan oleh tim Dakwah Tulungagung.
+              Nantikan artikel-artikel bermanfaat yang akan segera hadir.
             </p>
+
+            {/* Decorative dots */}
+            <div className="flex gap-2 mt-8">
+              {[0, 1, 2].map((i) => (
+                <motion.div
+                  key={i}
+                  animate={{ opacity: [0.3, 1, 0.3] }}
+                  transition={{ duration: 1.5, repeat: Infinity, delay: i * 0.3 }}
+                  className="w-2 h-2 rounded-full bg-primary/40"
+                />
+              ))}
+            </div>
           </motion.div>
         )}
 
