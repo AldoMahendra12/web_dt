@@ -38,7 +38,7 @@ export default function NavBar() {
       className={[
         "sticky top-0 z-[1000] transition-all duration-300",
         scrolled 
-          ? "bg-white/80 backdrop-blur-md shadow-header border-b border-border-default/50" 
+          ? "bg-white/95 backdrop-blur-md shadow-header" 
           : "bg-white",
       ].join(" ")}
       style={{ paddingBlock: "20px" }} // Ensuring consistent py-5 equivalent

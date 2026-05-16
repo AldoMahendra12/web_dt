@@ -96,7 +96,7 @@ export default function DonasiDialog({ open, onClose }: DonasiDialogProps) {
             <h2 className="text-white text-4xl font-bold tracking-tight mb-4 font-mono text-center sm:text-left">7899 9978 49</h2>
             <div className="flex flex-wrap gap-2 mb-6">
               <span className="px-3 py-1.5 rounded-md text-xs font-medium text-white/90" style={{ background: "rgba(255, 255, 255, 0.1)", border: "1px solid rgba(255, 255, 255, 0.1)" }}>
-                A/N DAKWAH TULUNGAGUNG OFFICIAL
+                Dakwah Tulungagung Official
               </span>
               <span className="px-3 py-1.5 rounded-md text-xs font-medium text-white/90" style={{ background: "rgba(255, 255, 255, 0.1)", border: "1px solid rgba(255, 255, 255, 0.1)" }}>
                 Kode Bank: 451
