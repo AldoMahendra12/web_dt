@@ -11,10 +11,10 @@ import { useDonasiDialog } from "@/components/ui/donasi-provider";
    ========================================= */
 
 const FLOATING_IMAGES = [
-  { src: "/assets/live-kajian.jpeg",   alt: "Live Kajian",       position: "-top-10 -left-10 -rotate-[15deg]" },
-  { src: "/assets/jumat-berkah.jpeg",  alt: "Jumat Berkah",      position: "-bottom-10 -left-5 rotate-[10deg]" },
-  { src: "/assets/safari-dakwah.jpeg", alt: "Safari Dakwah",     position: "-top-5 -right-10 rotate-[20deg]" },
-  { src: "/assets/pelatihan.jpeg",     alt: "Pelatihan",         position: "bottom-0 -right-5 -rotate-[10deg]" },
+  { src: "/assets/live-kajian.jpeg",   alt: "Live Kajian",       position: "top-0 left-0 -rotate-[10deg]" },
+  { src: "/assets/jumat-berkah.jpeg",  alt: "Jumat Berkah",      position: "bottom-0 left-[10%] rotate-[5deg]" },
+  { src: "/assets/safari-dakwah.jpeg", alt: "Safari Dakwah",     position: "top-[10%] right-0 rotate-[15deg]" },
+  { src: "/assets/pelatihan.jpeg",     alt: "Pelatihan",         position: "bottom-[10%] right-[5%] -rotate-[5deg]" },
 ];
 
 function useCountUp(target: number, duration = 2500, trigger = false) {
@@ -113,9 +113,9 @@ export default function AchievementsSection() {
           </p>
 
           {/* Sub Stats Row */}
-          <div className="mt-10 mb-2 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-12">
+          <div className="mt-8 mb-2 flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-8">
             {/* Stat: Donasi Dana Riba */}
-            <div className="flex flex-col items-center gap-1 px-8 py-5 rounded-2xl border border-border-default bg-bg-light/60 backdrop-blur-sm">
+            <div className="flex flex-col items-center gap-1 px-6 py-3">
               <span className="text-xs font-semibold uppercase tracking-widest text-text-light mb-1">
                 Dana Riba Tersalurkan
               </span>
@@ -127,11 +127,8 @@ export default function AchievementsSection() {
               </span>
             </div>
 
-            {/* Divider — desktop only */}
-            <div className="hidden sm:block w-px h-20 bg-border-default" />
-
             {/* Stat: Penerima Donasi */}
-            <div className="flex flex-col items-center gap-1 px-8 py-5 rounded-2xl border border-border-default bg-bg-light/60 backdrop-blur-sm">
+            <div className="flex flex-col items-center gap-1 px-6 py-3">
               <span className="text-xs font-semibold uppercase tracking-widest text-text-light mb-1">
                 Penerima Donasi
               </span>
