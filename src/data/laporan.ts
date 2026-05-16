@@ -9,6 +9,22 @@ export interface LaporanItem {
 
 export const laporanData: LaporanItem[] = [
   {
+    id: '5',
+    year: 2025,
+    type: 'keuangan',
+    title: 'Laporan Keuangan 2025',
+    description: 'Transparansi dana umat dan penggunaan anggaran tahun 2025.',
+    fileUrl: '#'
+  },
+  {
+    id: '6',
+    year: 2025,
+    type: 'kegiatan',
+    title: 'Laporan Kegiatan 2025',
+    description: 'Rekapitulasi program dan aktivitas dakwah sepanjang tahun 2025.',
+    fileUrl: '#'
+  },
+  {
     id: '1',
     year: 2024,
     type: 'keuangan',
