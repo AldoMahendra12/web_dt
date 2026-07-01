@@ -11,19 +11,25 @@ import { fetchArtikel, type ArtikelKategori } from "@/lib/directus";
    ========================================= */
 
 export async function GET(req: NextRequest) {
-  const { searchParams } = req.nextUrl;
+  try {
+    const { searchParams } = req.nextUrl;
 
-  const kategori = searchParams.get("kategori") as ArtikelKategori | null;
-  const search = searchParams.get("search") ?? undefined;
-  const page = Number(searchParams.get("page") ?? "1");
-  const limit = Number(searchParams.get("limit") ?? "12");
+    const kategori = searchParams.get("kategori") as ArtikelKategori | null;
+    const search = searchParams.get("search") ?? undefined;
+    const page = Number(searchParams.get("page") ?? "1");
+    const limit = Number(searchParams.get("limit") ?? "12");
 
-  const articles = await fetchArtikel({
-    kategori: kategori ?? undefined,
-    search,
-    page,
-    limit,
-  });
+    const articles = await fetchArtikel({
+      kategori: kategori ?? undefined,
+      search,
+      page,
+      limit,
+    });
 
-  return NextResponse.json({ data: articles });
+    return NextResponse.json({ data: articles });
+  } catch (err) {
+    // Directus mungkin belum online (localhost / production belum dikonfigurasi)
+    console.error("[API/artikel] Unhandled error:", err);
+    return NextResponse.json({ data: [] }, { status: 200 });
+  }
 }
