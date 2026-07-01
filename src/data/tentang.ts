@@ -52,12 +52,12 @@ export const strukturData: StrukturData = {
 };
 
 export const kantorData: Kantor = {
-  alamat: "Jl. Diponegoro No. 123, Tulungagung, Jawa Timur 66212",
+  alamat: "XW4R+54P, Jl. Gajah Mada, Bangoan, Kec. Kedungwaru, Kabupaten Tulungagung, Jawa Timur 66229",
   jam_operasional: "Senin - Jumat: 08.00 - 16.00 WIB",
   kontak: {
     telepon: "0355-123456",
     email: "info@dakwahtulungagung.or.id"
   },
-  maps_embed_url: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d126438.2854809817!2d111.8236774!3d-8.0645688!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e78e2e28a9b70b3%3A0x3027a76e352bcc0!2sTulungagung%2C%20Tulungagung%20Regency%2C%20East%20Java!5e0!3m2!1sen!2sid!4v1650000000000!5m2!1sen!2sid",
+  maps_embed_url: "https://maps.google.com/maps?q=XW4R%2B54P,+Jl.+Gajah+Mada,+Bangoan,+Kedungwaru,+Tulungagung&t=&z=16&ie=UTF8&iwloc=&output=embed",
   whatsapp_number: "6281234567890"
 };
