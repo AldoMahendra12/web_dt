@@ -3,9 +3,10 @@
 import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
-import { Calendar, User, ArrowUpRight, MessageCircleQuestion, ChevronDown, Loader2 } from "lucide-react";
+import { Calendar, User, ArrowUpRight, MessageCircleQuestion, ChevronDown, Loader2, BookOpen } from "lucide-react";
 import Button from "@/components/ui/button";
 import { getDirectusAssetUrl, type DirectusArtikelItem, type TanyaJawabItem } from "@/lib/directus";
+import { TANYA_JAWAB_DATA, type TanyaJawabEntry } from "@/data/tanya-jawab";
 
 /* =========================================
    ArtikelGrid — Client Component
@@ -203,10 +204,166 @@ function SkeletonCard({ featured = false }: { featured?: boolean }) {
   );
 }
 
+/* =========================================
+   TanyaJawabStaticGrid — Renders static Q&A
+   data when category "Tanya Jawab" is selected
+   ========================================= */
+
+function TanyaJawabQACard({ item, index }: { item: TanyaJawabEntry; index: number }) {
+  const [open, setOpen] = useState(false);
+  const lines = item.jawaban.split("\n");
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ delay: index * 0.04, duration: 0.5 }}
+      className={[
+        "rounded-md border transition-all duration-300 overflow-hidden bg-white",
+        open ? "border-amber-300 shadow-[0_4px_20px_rgba(245,158,11,0.12)]" : "border-border-default hover:border-amber-200",
+      ].join(" ")}
+    >
+      <button
+        onClick={() => setOpen(!open)}
+        className="w-full text-left px-5 sm:px-6 py-4 sm:py-5 flex items-start gap-4 group"
+        aria-expanded={open}
+      >
+        {/* Number badge */}
+        <div className={[
+          "flex-none w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold transition-all duration-300 mt-0.5",
+          open ? "bg-amber-500 text-white" : "bg-amber-50 text-amber-600 group-hover:bg-amber-100",
+        ].join(" ")}>
+          {String(item.id).padStart(2, "0")}
+        </div>
+
+        <div className="flex-1 min-w-0">
+          {item.penanya && (
+            <div className="flex items-center gap-1.5 text-[10px] font-medium text-text-faint uppercase tracking-wider mb-1">
+              <User className="w-3 h-3" />
+              {item.penanya}
+            </div>
+          )}
+          <p className={[
+            "font-semibold leading-snug text-sm transition-colors duration-300",
+            open ? "text-amber-700" : "text-text-heading group-hover:text-amber-700",
+          ].join(" ")}>
+            {item.pertanyaan}
+          </p>
+        </div>
+
+        <ChevronDown className={[
+          "flex-none w-4 h-4 text-text-faint transition-transform duration-300 mt-1",
+          open ? "rotate-180 text-amber-500" : "",
+        ].join(" ")} />
+      </button>
+
+      <AnimatePresence initial={false}>
+        {open && (
+          <motion.div
+            key="ans"
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+            className="overflow-hidden"
+          >
+            <div className="px-5 sm:px-6 pb-5 pt-0">
+              <div className="h-px bg-gradient-to-r from-amber-200 via-amber-100 to-transparent mb-4" />
+              <div className="space-y-1.5 text-sm text-text-light leading-relaxed">
+                {lines.map((line, i) => {
+                  const trimmed = line.trim();
+                  if (!trimmed) return <div key={i} className="h-1" />;
+                  const hasArabic = /[\u0600-\u06FF]/.test(trimmed);
+                  if (hasArabic) {
+                    return (
+                      <div key={i} dir="rtl" className="font-arabic text-lg text-text-heading leading-loose text-right px-3 py-2.5 bg-amber-50 border-r-4 border-amber-400 rounded-md my-2">
+                        {trimmed}
+                      </div>
+                    );
+                  }
+                  if (/^(Yang (pertama|ke\s*\w+|ketiga|keempat)|\d+\.|•)/.test(trimmed)) {
+                    return <p key={i} className="font-semibold text-text-heading">{trimmed}</p>;
+                  }
+                  return <p key={i}>{trimmed}</p>;
+                })}
+              </div>
+              <div className="mt-4 pt-3 border-t border-border-default flex items-center gap-2">
+                <BookOpen className="w-3.5 h-3.5 text-amber-500 flex-none" />
+                <p className="text-[10px] text-text-faint">
+                  Dijawab oleh <span className="font-semibold text-text-light">{item.ustadz}</span> Hafidzahullahu Ta&apos;ala
+                </p>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.div>
+  );
+}
+
+function TanyaJawabStaticGrid({ searchQuery }: { searchQuery: string }) {
+  const filtered = TANYA_JAWAB_DATA.filter((item) => {
+    if (!searchQuery) return true;
+    const q = searchQuery.toLowerCase();
+    return item.pertanyaan.toLowerCase().includes(q) || item.jawaban.toLowerCase().includes(q);
+  });
+
+  return (
+    <section className="pb-24">
+      <div className="container mx-auto px-6">
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mb-8 flex items-center gap-3"
+        >
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-50 border border-amber-200 text-amber-700 text-xs font-bold uppercase tracking-wider">
+            <MessageCircleQuestion className="w-3.5 h-3.5" />
+            Tanya Jawab Asatidz
+          </div>
+          <span className="text-text-faint text-sm">{filtered.length} pertanyaan</span>
+        </motion.div>
+
+        {filtered.length === 0 ? (
+          <div className="py-20 text-center text-text-faint">
+            <MessageCircleQuestion className="w-12 h-12 mx-auto mb-3 opacity-30" />
+            <p>Tidak ada pertanyaan yang cocok dengan pencarian.</p>
+          </div>
+        ) : (
+          <div className="max-w-[860px] mx-auto space-y-3">
+            {filtered.map((item, idx) => (
+              <TanyaJawabQACard key={item.id} item={item} index={idx} />
+            ))}
+          </div>
+        )}
+
+        {/* Footer note */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          className="max-w-[860px] mx-auto mt-10 p-5 rounded-2xl bg-amber-50 border border-amber-100 text-center"
+        >
+          <p className="font-arabic text-xl text-text-heading mb-1" dir="rtl">وَاللَّهُ أَعْلَمُ</p>
+          <p className="text-xs text-text-faint">
+            Semua jawaban merupakan ijtihad berdasarkan dalil-dalil yang ada. Untuk permasalahan yang lebih kompleks, silakan berkonsultasi langsung.
+          </p>
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
 export default function ArtikelGrid({
   selectedCategory,
   searchQuery,
 }: ArtikelGridProps) {
+  // ── Shortcircuit: render static Q&A when Tanya Jawab is selected ──
+  if (selectedCategory === "Tanya Jawab") {
+    return <TanyaJawabStaticGrid searchQuery={searchQuery} />;
+  }
+
   const [articles, setArticles] = useState<DirectusArtikelItem[]>([]);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
