@@ -60,20 +60,25 @@ export async function fetchArtikel(params?: {
     "fields[]=konten_tanya_jawab.*",
   ].join("&");
 
-  const res = await fetch(`${DIRECTUS_URL}/items/artikel?${query}`, {
-    headers: getHeaders(),
-    next: { revalidate: 60 }, // ISR: revalidate tiap 60 detik
-  });
+  try {
+    const res = await fetch(`${DIRECTUS_URL}/items/artikel?${query}`, {
+      headers: getHeaders(),
+      next: { revalidate: 60 }, // ISR: revalidate tiap 60 detik
+    });
 
-  if (!res.ok) {
-    console.error(
-      `[Directus] fetchArtikel gagal: ${res.status} ${res.statusText}`
-    );
+    if (!res.ok) {
+      console.error(
+        `[Directus] fetchArtikel gagal: ${res.status} ${res.statusText}`
+      );
+      return [];
+    }
+
+    const json = await res.json();
+    return json.data ?? [];
+  } catch (err) {
+    console.error("[Directus] fetchArtikel connection error (offline?):", err);
     return [];
   }
-
-  const json = await res.json();
-  return json.data ?? [];
 }
 
 /** Fetch satu artikel berdasarkan slug */
@@ -88,15 +93,20 @@ export async function fetchArtikelBySlug(
     "fields[]=konten_tanya_jawab.*",
   ].join("&");
 
-  const res = await fetch(`${DIRECTUS_URL}/items/artikel?${query}`, {
-    headers: getHeaders(),
-    next: { revalidate: 60 },
-  });
+  try {
+    const res = await fetch(`${DIRECTUS_URL}/items/artikel?${query}`, {
+      headers: getHeaders(),
+      next: { revalidate: 60 },
+    });
 
-  if (!res.ok) return null;
+    if (!res.ok) return null;
 
-  const json = await res.json();
-  return json.data?.[0] ?? null;
+    const json = await res.json();
+    return json.data?.[0] ?? null;
+  } catch (err) {
+    console.error("[Directus] fetchArtikelBySlug connection error (offline?):", err);
+    return null;
+  }
 }
 
 /** Tipe data artikel dari Directus */
