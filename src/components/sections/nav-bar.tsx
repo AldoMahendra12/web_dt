@@ -18,6 +18,7 @@ const NAV_ITEMS: NavItem[] = [
   { label: "Tentang Kami", href: "/tentang" },
   { label: "Program", href: "/program" },
   { label: "Jadwal Kajian", href: "/jadwal" },
+  { label: "Tanya Jawab", href: "/tanya-jawab" },
   { label: "Artikel", href: "/artikel" },
   { label: "Laporan", href: "/laporan" },
 ];
