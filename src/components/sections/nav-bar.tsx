@@ -6,27 +6,10 @@ import Link from "next/link";
 import Button from "@/components/ui/button";
 import type { NavItem } from "@/types";
 import { useDonasiDialog } from "@/components/ui/donasi-provider";
+import { useTanyaDialog } from "@/components/ui/tanya-provider";
 
 /* =========================================
-   NavBar — Section Component
-   Matches homepage .header exactly
-   Sticky, desktop nav with dot separators,
-   mobile hamburger menu
-   ========================================= */
-
-const NAV_ITEMS: NavItem[] = [
-  { label: "Tentang Kami", href: "/tentang" },
-  { label: "Program", href: "/program" },
-  { label: "Jadwal Kajian", href: "/jadwal" },
-  { label: "Tanya Jawab", href: "/tanya-jawab" },
-  { label: "Artikel", href: "/artikel" },
-  { label: "Laporan", href: "/laporan" },
-];
-
-export default function NavBar() {
-  const [scrolled, setScrolled] = useState(false);
-  const [mobileOpen, setMobileOpen] = useState(false);
-  const { openDonasi } = useDonasiDialog();
+  const { openTanya } = useTanyaDialog();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
@@ -81,7 +64,14 @@ export default function NavBar() {
 
         {/* Right: CTA + Mobile Hamburger */}
         <div className="flex items-center gap-4">
-          <div className="hidden lg:block">
+          <div className="hidden lg:flex items-center gap-3">
+            <Button 
+              onClick={openTanya} 
+              variant="secondary" 
+              className="px-4 py-2 border border-primary/20 text-primary hover:border-primary/50"
+            >
+              Tanya Ustadz
+            </Button>
             <Button onClick={openDonasi} variant="primary">
               Donasi Sekarang
             </Button>
@@ -119,7 +109,7 @@ export default function NavBar() {
       <div
         className={[
           "lg:hidden overflow-hidden transition-all duration-300",
-          mobileOpen ? "max-h-[400px] opacity-100" : "max-h-0 opacity-0",
+          mobileOpen ? "max-h-[460px] opacity-100" : "max-h-0 opacity-0",
         ].join(" ")}
       >
         <nav className="max-w-[1200px] mx-auto px-5 py-4">
@@ -135,8 +125,19 @@ export default function NavBar() {
                 </Link>
               </li>
             ))}
-            <li className="pt-4 mt-2 border-t border-border-default">
-              <Button onClick={() => { setMobileOpen(false); openDonasi(); }} variant="primary" className="w-full">
+            <li className="pt-4 mt-2 border-t border-border-default flex flex-col gap-2">
+              <Button 
+                onClick={() => { setMobileOpen(false); openTanya(); }} 
+                variant="secondary" 
+                className="w-full border border-primary/20 text-primary"
+              >
+                Tanya Ustadz
+              </Button>
+              <Button 
+                onClick={() => { setMobileOpen(false); openDonasi(); }} 
+                variant="primary" 
+                className="w-full"
+              >
                 Donasi Sekarang
               </Button>
             </li>

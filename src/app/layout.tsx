@@ -3,6 +3,7 @@ import { Plus_Jakarta_Sans, Amiri } from "next/font/google";
 import "./globals.css";
 import LenisProvider from "@/components/ui/lenis-provider";
 import DonasiProvider from "@/components/ui/donasi-provider";
+import TanyaProvider from "@/components/ui/tanya-provider";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   variable: "--font-sans",
@@ -39,9 +40,12 @@ export default function RootLayout({
     >
       <body className="min-h-screen flex flex-col">
         <DonasiProvider>
-          <LenisProvider>{children}</LenisProvider>
+          <TanyaProvider>
+            <LenisProvider>{children}</LenisProvider>
+          </TanyaProvider>
         </DonasiProvider>
       </body>
     </html>
   );
 }
+
