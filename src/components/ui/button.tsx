@@ -19,6 +19,7 @@ interface ButtonProps {
   target?: string;
   rel?: string;
   disabled?: boolean;
+  type?: "button" | "submit" | "reset";
 }
 
 const variantClasses: Record<string, string> = {
@@ -47,6 +48,7 @@ export default function Button({
   target,
   rel,
   disabled = false,
+  type = "button",
 }: ButtonProps) {
   const classes = [
     "inline-flex items-center justify-center gap-2.5 font-semibold transition-all duration-300 rounded-md relative overflow-hidden",
@@ -67,7 +69,7 @@ export default function Button({
   }
 
   return (
-    <button onClick={onClick} className={classes} disabled={disabled}>
+    <button type={type} onClick={onClick} className={classes} disabled={disabled}>
       <span className="relative z-10 flex items-center justify-center gap-2 whitespace-nowrap w-full">{children}</span>
     </button>
   );
