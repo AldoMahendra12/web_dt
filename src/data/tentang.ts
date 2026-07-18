@@ -53,7 +53,7 @@ export const strukturData: StrukturData = {
 
 export const kantorData: Kantor = {
   alamat: "XW4R+54P, Jl. Gajah Mada, Bangoan, Kec. Kedungwaru, Kabupaten Tulungagung, Jawa Timur 66229",
-  jam_operasional: "Senin - Jumat: 08.00 - 16.00 WIB",
+  jam_operasional: "Senin - Sabtu: 08.00 - 16.00 WIB",
   kontak: {
     telepon: "0355-123456",
     email: "info@dakwahtulungagung.or.id"
