@@ -9,6 +9,23 @@ import { useDonasiDialog } from "@/components/ui/donasi-provider";
 import { useTanyaDialog } from "@/components/ui/tanya-provider";
 
 /* =========================================
+   NavBar — Section Component
+   Sticky, desktop nav with dot separators,
+   mobile hamburger menu
+   ========================================= */
+
+const NAV_ITEMS: NavItem[] = [
+  { label: "Tentang Kami", href: "/tentang" },
+  { label: "Program", href: "/program" },
+  { label: "Jadwal Kajian", href: "/jadwal" },
+  { label: "Artikel", href: "/artikel" },
+  { label: "Laporan", href: "/laporan" },
+];
+
+export default function NavBar() {
+  const [scrolled, setScrolled] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const { openDonasi } = useDonasiDialog();
   const { openTanya } = useTanyaDialog();
 
   useEffect(() => {
@@ -21,11 +38,11 @@ import { useTanyaDialog } from "@/components/ui/tanya-provider";
     <header
       className={[
         "sticky top-0 z-[1000] transition-all duration-300",
-        scrolled 
-          ? "bg-white/95 backdrop-blur-md shadow-header" 
+        scrolled
+          ? "bg-white/95 backdrop-blur-md shadow-header"
           : "bg-white",
       ].join(" ")}
-      style={{ paddingBlock: "20px" }} // Ensuring consistent py-5 equivalent
+      style={{ paddingBlock: "20px" }}
     >
       <div className="max-w-[1200px] mx-auto px-5 flex justify-between items-center">
         {/* Left: Logo + Separator + Nav */}
@@ -65,9 +82,9 @@ import { useTanyaDialog } from "@/components/ui/tanya-provider";
         {/* Right: CTA + Mobile Hamburger */}
         <div className="flex items-center gap-4">
           <div className="hidden lg:flex items-center gap-3">
-            <Button 
-              onClick={openTanya} 
-              variant="secondary" 
+            <Button
+              onClick={openTanya}
+              variant="secondary"
               className="px-4 py-2 border border-primary/20 text-primary hover:border-primary/50"
             >
               Tanya Ustadz
@@ -126,16 +143,16 @@ import { useTanyaDialog } from "@/components/ui/tanya-provider";
               </li>
             ))}
             <li className="pt-4 mt-2 border-t border-border-default flex flex-col gap-2">
-              <Button 
-                onClick={() => { setMobileOpen(false); openTanya(); }} 
-                variant="secondary" 
+              <Button
+                onClick={() => { setMobileOpen(false); openTanya(); }}
+                variant="secondary"
                 className="w-full border border-primary/20 text-primary"
               >
                 Tanya Ustadz
               </Button>
-              <Button 
-                onClick={() => { setMobileOpen(false); openDonasi(); }} 
-                variant="primary" 
+              <Button
+                onClick={() => { setMobileOpen(false); openDonasi(); }}
+                variant="primary"
                 className="w-full"
               >
                 Donasi Sekarang
