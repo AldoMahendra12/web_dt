@@ -329,57 +329,340 @@ function TanyaJawabQACard({ item, index }: { item: TanyaJawabEntry; index: numbe
 }
 
 function TanyaJawabStaticGrid({ searchQuery }: { searchQuery: string }) {
+  const [openId, setOpenId] = useState<number | null>(null);
+
   const filtered = TANYA_JAWAB_DATA.filter((item) => {
     if (!searchQuery) return true;
     const q = searchQuery.toLowerCase();
     return item.pertanyaan.toLowerCase().includes(q) || item.jawaban.toLowerCase().includes(q);
   });
 
-  return (
-    <section className="pb-24">
-      <div className="container mx-auto px-6">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="mb-8 flex items-center gap-3"
-        >
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-50 border border-amber-200 text-amber-700 text-xs font-bold uppercase tracking-wider">
-            <MessageCircleQuestion className="w-3.5 h-3.5" />
-            Tanya Jawab Asatidz
-          </div>
-          <span className="text-text-faint text-sm">{filtered.length} pertanyaan</span>
-        </motion.div>
-
-        {filtered.length === 0 ? (
+  if (filtered.length === 0) {
+    return (
+      <section className="pb-24">
+        <div className="max-w-[1200px] mx-auto px-5">
           <div className="py-20 text-center text-text-faint">
             <MessageCircleQuestion className="w-12 h-12 mx-auto mb-3 opacity-30" />
             <p>Tidak ada pertanyaan yang cocok dengan pencarian.</p>
           </div>
-        ) : (
-          <div className="max-w-[860px] mx-auto space-y-3">
-            {filtered.map((item, idx) => (
-              <TanyaJawabQACard key={item.id} item={item} index={idx} />
+        </div>
+      </section>
+    );
+  }
+
+  const [featured, ...rest] = filtered;
+  const secondary = rest.slice(0, 3);
+  const listItems = rest.slice(3);
+
+  /** Ambil ringkasan jawaban (2 kalimat pertama, tanpa arab) */
+  function getExcerpt(jawaban: string, maxLen = 160): string {
+    const lines = jawaban.split("\n").map(l => l.trim()).filter(l => l && !/[\u0600-\u06FF]/.test(l));
+    const joined = lines.join(" ");
+    return joined.length > maxLen ? joined.slice(0, maxLen) + "…" : joined;
+  }
+
+  return (
+    <section className="pb-24 bg-white">
+      <div className="max-w-[1200px] mx-auto px-5">
+
+        {/* ── FEATURED QA (Hero besar) ── */}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="mb-10"
+        >
+          {/* Card featured */}
+          <div
+            className={[
+              "w-full rounded-2xl border-2 transition-all duration-300 overflow-hidden bg-white cursor-pointer",
+              openId === featured.id
+                ? "border-amber-400 shadow-[0_8px_32px_rgba(245,158,11,0.18)]"
+                : "border-amber-200 hover:border-amber-400 shadow-md hover:shadow-lg",
+            ].join(" ")}
+            onClick={() => setOpenId(openId === featured.id ? null : featured.id)}
+          >
+            {/* Header area (mirip gambar di artikel) */}
+            <div className="relative w-full bg-gradient-to-br from-amber-50 via-orange-50 to-amber-100 px-8 py-10 sm:py-14">
+              {/* Dekorasi */}
+              <div className="absolute top-0 right-0 w-48 h-48 bg-amber-200/30 rounded-full -translate-y-1/4 translate-x-1/4" />
+              <div className="absolute bottom-0 left-0 w-32 h-32 bg-orange-200/20 rounded-full translate-y-1/4 -translate-x-1/4" />
+
+              <div className="relative z-10">
+                {/* Badge */}
+                <div className="inline-flex items-center gap-2 bg-amber-500 text-white text-xs font-bold px-3 py-1.5 rounded-md uppercase tracking-wider mb-5">
+                  <MessageCircleQuestion className="w-3.5 h-3.5" />
+                  Tanya Jawab
+                </div>
+
+                {/* Nomor + Penanya */}
+                <div className="flex items-center gap-3 mb-3">
+                  <span className="flex-none w-8 h-8 rounded-lg bg-amber-500 text-white flex items-center justify-center text-xs font-bold">
+                    {String(featured.id).padStart(2, "0")}
+                  </span>
+                  {featured.penanya && (
+                    <span className="flex items-center gap-1.5 text-xs text-amber-700/70">
+                      <User className="w-3 h-3" />
+                      {featured.penanya}
+                    </span>
+                  )}
+                </div>
+
+                {/* Pertanyaan */}
+                <h2 className="text-xl sm:text-2xl font-bold text-text-heading leading-snug mb-2 max-w-2xl">
+                  {featured.pertanyaan}
+                </h2>
+
+                {/* Excerpt jawaban */}
+                <p className="text-sm text-amber-800/70 leading-relaxed max-w-2xl line-clamp-2">
+                  {getExcerpt(featured.jawaban)}
+                </p>
+
+                {/* Toggle hint */}
+                <div className="mt-5 flex items-center gap-2 text-amber-600 text-xs font-semibold">
+                  <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${openId === featured.id ? "rotate-180" : ""}`} />
+                  {openId === featured.id ? "Tutup Jawaban" : "Baca Jawaban Lengkap"}
+                </div>
+              </div>
+            </div>
+
+            {/* Jawaban (expandable) */}
+            <AnimatePresence initial={false}>
+              {openId === featured.id && (
+                <motion.div
+                  key="ans-featured"
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: "auto", opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ duration: 0.35, ease: [0.4, 0, 0.2, 1] }}
+                  className="overflow-hidden"
+                >
+                  <div className="px-8 py-6 border-t-2 border-amber-100 bg-amber-50/40">
+                    <div className="space-y-2 text-sm text-text-light leading-relaxed max-w-2xl">
+                      {renderQALines(featured.jawaban)}
+                    </div>
+                    <div className="mt-6 pt-4 border-t border-amber-100 flex items-center gap-2">
+                      <BookOpen className="w-3.5 h-3.5 text-amber-500 flex-none" />
+                      <p className="text-[11px] text-text-faint">
+                        Dijawab oleh <span className="font-semibold text-text-light">{featured.ustadz}</span> Hafidzahullahu Ta&apos;ala
+                      </p>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        </motion.div>
+
+        {/* ── DIVIDER ── */}
+        <div className="flex items-center gap-3 mb-8">
+          <div className="w-1 h-6 bg-amber-500 rounded-full" />
+          <h2 className="text-base font-bold text-text-heading tracking-wide uppercase">Pertanyaan Lainnya</h2>
+          <div className="flex-1 h-px bg-border-default" />
+          <span className="text-text-faint text-xs">{filtered.length} pertanyaan</span>
+        </div>
+
+        {/* ── SECONDARY CARDS (3 kolom) ── */}
+        {secondary.length > 0 && (
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 mb-10">
+            {secondary.map((item, i) => (
+              <motion.div
+                key={item.id}
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.1, duration: 0.4 }}
+                className={[
+                  "rounded-xl border-2 overflow-hidden cursor-pointer transition-all duration-300 bg-white",
+                  openId === item.id
+                    ? "border-amber-400 shadow-[0_4px_20px_rgba(245,158,11,0.15)]"
+                    : "border-border-default hover:border-amber-300 hover:shadow-md",
+                ].join(" ")}
+                onClick={() => setOpenId(openId === item.id ? null : item.id)}
+              >
+                {/* Top colored bar */}
+                <div className="h-1.5 bg-gradient-to-r from-amber-400 to-orange-400" />
+
+                <div className="p-5">
+                  {/* Nomor + Penanya */}
+                  <div className="flex items-center gap-2 mb-3">
+                    <span className={[
+                      "flex-none w-7 h-7 rounded-lg flex items-center justify-center text-xs font-bold transition-colors",
+                      openId === item.id ? "bg-amber-500 text-white" : "bg-amber-50 text-amber-600",
+                    ].join(" ")}>
+                      {String(item.id).padStart(2, "0")}
+                    </span>
+                    {item.penanya && (
+                      <span className="text-[10px] text-text-faint flex items-center gap-1">
+                        <User className="w-3 h-3" />
+                        {item.penanya}
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Pertanyaan */}
+                  <h3 className={[
+                    "text-sm font-bold leading-snug mb-2 line-clamp-3 transition-colors",
+                    openId === item.id ? "text-amber-700" : "text-text-heading",
+                  ].join(" ")}>
+                    {item.pertanyaan}
+                  </h3>
+
+                  {/* Excerpt */}
+                  <p className="text-xs text-text-faint line-clamp-2 leading-relaxed">
+                    {getExcerpt(item.jawaban, 100)}
+                  </p>
+
+                  {/* Toggle */}
+                  <div className="mt-3 flex items-center gap-1 text-amber-600 text-[11px] font-semibold">
+                    <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-300 ${openId === item.id ? "rotate-180" : ""}`} />
+                    {openId === item.id ? "Tutup" : "Baca Jawaban"}
+                  </div>
+                </div>
+
+                {/* Jawaban expandable */}
+                <AnimatePresence initial={false}>
+                  {openId === item.id && (
+                    <motion.div
+                      key={`ans-${item.id}`}
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+                      className="overflow-hidden"
+                    >
+                      <div className="px-5 pb-5 border-t border-amber-100 pt-3 bg-amber-50/40">
+                        <div className="space-y-1.5 text-xs text-text-light leading-relaxed">
+                          {renderQALines(item.jawaban)}
+                        </div>
+                        <div className="mt-3 pt-2 border-t border-amber-100 flex items-center gap-1.5">
+                          <BookOpen className="w-3 h-3 text-amber-500 flex-none" />
+                          <p className="text-[10px] text-text-faint">
+                            <span className="font-semibold text-text-light">{item.ustadz}</span>
+                          </p>
+                        </div>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.div>
             ))}
           </div>
         )}
 
-        {/* Footer note */}
+        {/* ── DIVIDER Baca Juga ── */}
+        {listItems.length > 0 && (
+          <div className="flex items-center gap-3 mb-6">
+            <div className="w-1 h-6 bg-amber-500 rounded-full" />
+            <h2 className="text-base font-bold text-text-heading tracking-wide uppercase">Baca Juga</h2>
+            <div className="flex-1 h-px bg-border-default" />
+          </div>
+        )}
+
+        {/* ── LIST ROWS (teks kiri) ── */}
+        {listItems.length > 0 && (
+          <div className="divide-y divide-border-default">
+            {listItems.map((item, i) => (
+              <motion.div
+                key={item.id}
+                initial={{ opacity: 0, x: -10 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.04, duration: 0.4 }}
+              >
+                <div
+                  className="cursor-pointer -mx-2 px-2 rounded-lg hover:bg-amber-50/60 transition-colors"
+                  onClick={() => setOpenId(openId === item.id ? null : item.id)}
+                >
+                  {/* Row header */}
+                  <div className="flex items-start gap-4 py-5">
+                    {/* Nomor */}
+                    <div className={[
+                      "flex-none w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold mt-0.5 transition-colors",
+                      openId === item.id ? "bg-amber-500 text-white" : "bg-amber-50 text-amber-600",
+                    ].join(" ")}>
+                      {String(item.id).padStart(2, "0")}
+                    </div>
+
+                    {/* Konten */}
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 mb-1.5">
+                        <span className="text-[10px] font-bold text-amber-600 uppercase tracking-wider bg-amber-50 px-2 py-0.5 rounded">
+                          Tanya Jawab
+                        </span>
+                        {item.penanya && (
+                          <span className="text-[11px] text-text-faint flex items-center gap-1">
+                            <User className="w-3 h-3" />
+                            {item.penanya}
+                          </span>
+                        )}
+                      </div>
+                      <h3 className={[
+                        "text-sm sm:text-base font-bold leading-snug mb-1 line-clamp-2 transition-colors",
+                        openId === item.id ? "text-amber-700" : "text-text-heading",
+                      ].join(" ")}>
+                        {item.pertanyaan}
+                      </h3>
+                      <p className="text-xs sm:text-sm text-text-light leading-relaxed line-clamp-1 hidden sm:block">
+                        {getExcerpt(item.jawaban, 120)}
+                      </p>
+                    </div>
+
+                    {/* Toggle icon */}
+                    <ChevronDown className={[
+                      "flex-none w-4 h-4 text-amber-400 mt-1 transition-transform duration-300",
+                      openId === item.id ? "rotate-180" : "",
+                    ].join(" ")} />
+                  </div>
+
+                  {/* Jawaban expandable */}
+                  <AnimatePresence initial={false}>
+                    {openId === item.id && (
+                      <motion.div
+                        key={`list-ans-${item.id}`}
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+                        className="overflow-hidden"
+                      >
+                        <div className="pl-12 pr-2 pb-5">
+                          <div className="p-4 rounded-xl bg-amber-50 border border-amber-100 space-y-1.5 text-sm text-text-light leading-relaxed">
+                            {renderQALines(item.jawaban)}
+                          </div>
+                          <div className="mt-3 flex items-center gap-1.5">
+                            <BookOpen className="w-3.5 h-3.5 text-amber-500 flex-none" />
+                            <p className="text-[11px] text-text-faint">
+                              Dijawab oleh <span className="font-semibold text-text-light">{item.ustadz}</span> Hafidzahullahu Ta&apos;ala
+                            </p>
+                          </div>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        )}
+
+        {/* ── Footer note ── */}
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          className="max-w-[860px] mx-auto mt-10 p-5 rounded-2xl bg-amber-50 border border-amber-100 text-center"
+          className="mt-12 p-6 rounded-2xl bg-amber-50 border border-amber-100 text-center"
         >
-          <p className="font-arabic text-xl text-text-heading mb-1" dir="rtl">وَاللَّهُ أَعْلَمُ</p>
-          <p className="text-xs text-text-faint">
+          <p className="font-arabic text-2xl text-text-heading mb-2" dir="rtl">وَاللَّهُ أَعْلَمُ</p>
+          <p className="text-xs text-text-faint max-w-sm mx-auto">
             Semua jawaban merupakan ijtihad berdasarkan dalil-dalil yang ada. Untuk permasalahan yang lebih kompleks, silakan berkonsultasi langsung.
           </p>
         </motion.div>
+
       </div>
     </section>
   );
 }
+
 
 export default function ArtikelGrid({
   selectedCategory,
