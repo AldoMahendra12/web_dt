@@ -3,10 +3,12 @@
 import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
+import Link from "next/link";
 import { Calendar, User, ArrowUpRight, MessageCircleQuestion, ChevronDown, Loader2, BookOpen } from "lucide-react";
 import Button from "@/components/ui/button";
 import { getDirectusAssetUrl, type DirectusArtikelItem, type TanyaJawabItem } from "@/lib/directus";
 import { TANYA_JAWAB_DATA, type TanyaJawabEntry } from "@/data/tanya-jawab";
+import { MOCK_ARTIKEL } from "@/data/artikel";
 
 /* =========================================
    ArtikelGrid — Client Component
@@ -29,6 +31,43 @@ function formatTanggal(iso: string | null): string {
     day: "numeric",
     month: "long",
     year: "numeric",
+  });
+}
+
+/** Shared helper to parse Q&A content with Arabic styling */
+function renderQALines(text: string) {
+  const lines = text.split("\n");
+  return lines.map((line, i) => {
+    const trimmed = line.trim();
+    if (!trimmed) return <div key={i} className="h-3" />;
+
+    const hasArabic = /[\u0600-\u06FF]/.test(trimmed);
+    if (hasArabic) {
+      return (
+        <div 
+          key={i} 
+          dir="rtl" 
+          className="font-arabic text-2xl text-text-heading leading-loose text-center my-4 font-normal"
+        >
+          {trimmed}
+        </div>
+      );
+    }
+
+    const isTranslation = trimmed.startsWith('"') || trimmed.startsWith('“') || trimmed.startsWith('(') || trimmed.startsWith('&quot;');
+    if (isTranslation) {
+      return (
+        <p key={i} className="text-sm italic text-text-muted text-center max-w-[600px] mx-auto my-3 leading-relaxed">
+          {trimmed}
+        </p>
+      );
+    }
+
+    if (/^(Yang (pertama|ke\s*\w+|ketiga|keempat)|\d+\.|•)/.test(trimmed)) {
+      return <p key={i} className="font-semibold text-text-heading mt-4 mb-2">{trimmed}</p>;
+    }
+
+    return <p key={i} className="text-justify mb-2 leading-relaxed text-text-light text-sm">{trimmed}</p>;
   });
 }
 
@@ -159,9 +198,9 @@ function ArtikelCard({
                           transition={{ duration: 0.3, ease: "easeInOut" }}
                           className="overflow-hidden"
                         >
-                          <p className="px-4 pb-4 pt-1 text-sm text-text-light leading-relaxed">
-                            {qa.jawaban}
-                          </p>
+                          <div className="px-4 pb-4 pt-1 space-y-1.5 text-sm text-text-light leading-relaxed">
+                            {renderQALines(qa.jawaban)}
+                          </div>
                         </motion.div>
                       )}
                     </AnimatePresence>
@@ -173,10 +212,12 @@ function ArtikelCard({
 
         {!hasTanyaJawab && (
           <div className="mt-6">
-            <Button variant="primary" size="default" className="px-5 py-2 group/btn">
-              Baca Selengkapnya
-              <ArrowUpRight className="h-4 w-4 transition-transform group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5" />
-            </Button>
+            <Link href={`/artikel/${item.slug}`}>
+              <Button variant="primary" size="default" className="px-5 py-2 group/btn w-full sm:w-auto">
+                Baca Selengkapnya
+                <ArrowUpRight className="h-4 w-4 transition-transform group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5" />
+              </Button>
+            </Link>
           </div>
         )}
       </div>
@@ -271,22 +312,7 @@ function TanyaJawabQACard({ item, index }: { item: TanyaJawabEntry; index: numbe
             <div className="px-5 sm:px-6 pb-5 pt-0">
               <div className="h-px bg-gradient-to-r from-amber-200 via-amber-100 to-transparent mb-4" />
               <div className="space-y-1.5 text-sm text-text-light leading-relaxed">
-                {lines.map((line, i) => {
-                  const trimmed = line.trim();
-                  if (!trimmed) return <div key={i} className="h-1" />;
-                  const hasArabic = /[\u0600-\u06FF]/.test(trimmed);
-                  if (hasArabic) {
-                    return (
-                      <div key={i} dir="rtl" className="font-arabic text-lg text-text-heading leading-loose text-right px-3 py-2.5 bg-amber-50 border-r-4 border-amber-400 rounded-md my-2">
-                        {trimmed}
-                      </div>
-                    );
-                  }
-                  if (/^(Yang (pertama|ke\s*\w+|ketiga|keempat)|\d+\.|•)/.test(trimmed)) {
-                    return <p key={i} className="font-semibold text-text-heading">{trimmed}</p>;
-                  }
-                  return <p key={i}>{trimmed}</p>;
-                })}
+                {renderQALines(item.jawaban)}
               </div>
               <div className="mt-4 pt-3 border-t border-border-default flex items-center gap-2">
                 <BookOpen className="w-3.5 h-3.5 text-amber-500 flex-none" />
@@ -370,7 +396,7 @@ export default function ArtikelGrid({
   const [loading, setLoading] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
 
-  const LIMIT = 9;
+  const LIMIT = 12;
 
   const loadArticles = useCallback(
     async (currentPage: number, reset: boolean) => {
@@ -391,7 +417,24 @@ export default function ArtikelGrid({
 
         const res = await fetch(`/api/artikel?${params.toString()}`);
         const json = await res.json();
-        const incoming: DirectusArtikelItem[] = json.data ?? [];
+        let incoming: DirectusArtikelItem[] = json.data ?? [];
+
+        // Fallback ke mock data jika Directus belum terhubung
+        if (incoming.length === 0 && reset && currentPage === 1) {
+          let mock = MOCK_ARTIKEL;
+          if (selectedCategory && selectedCategory !== "Semua") {
+            mock = mock.filter((a) => a.kategori === selectedCategory);
+          }
+          if (searchQuery) {
+            const q = searchQuery.toLowerCase();
+            mock = mock.filter(
+              (a) =>
+                a.judul.toLowerCase().includes(q) ||
+                a.ringkasan.toLowerCase().includes(q)
+            );
+          }
+          incoming = mock;
+        }
 
         setArticles((prev) => (reset ? incoming : [...prev, ...incoming]));
         setHasMore(incoming.length === LIMIT);
@@ -417,92 +460,245 @@ export default function ArtikelGrid({
     loadArticles(next, false);
   };
 
-  return (
-    <section className="pb-24">
-      <div className="container mx-auto px-6">
-        {/* Loading state */}
-        {loading && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <SkeletonCard featured />
-            <SkeletonCard />
-            <SkeletonCard />
-            <SkeletonCard />
+  // ── Skeleton loaders ──
+  if (loading) {
+    return (
+      <section className="pb-24">
+        <div className="max-w-[1200px] mx-auto px-5">
+          {/* Featured skeleton */}
+          <div className="animate-pulse mb-8">
+            <div className="w-full h-[420px] bg-gray-200 rounded-2xl mb-4" />
+            <div className="h-4 bg-gray-200 rounded w-1/4 mb-2" />
+            <div className="h-7 bg-gray-200 rounded w-3/4 mb-2" />
+            <div className="h-4 bg-gray-200 rounded w-full mb-1" />
+            <div className="h-4 bg-gray-200 rounded w-2/3" />
           </div>
-        )}
+          {/* Row of 3 skeletons */}
+          <div className="grid grid-cols-3 gap-5 mb-8">
+            {[1,2,3].map(i => (
+              <div key={i} className="animate-pulse">
+                <div className="h-44 bg-gray-200 rounded-xl mb-3" />
+                <div className="h-4 bg-gray-200 rounded w-1/3 mb-2" />
+                <div className="h-5 bg-gray-200 rounded w-full mb-1" />
+                <div className="h-4 bg-gray-200 rounded w-3/4" />
+              </div>
+            ))}
+          </div>
+          {/* List skeletons */}
+          {[1,2,3,4,5].map(i => (
+            <div key={i} className="animate-pulse flex gap-4 py-5 border-b border-border-default">
+              <div className="flex-1 space-y-2">
+                <div className="h-3 bg-gray-200 rounded w-1/4" />
+                <div className="h-5 bg-gray-200 rounded w-3/4" />
+                <div className="h-3 bg-gray-200 rounded w-full" />
+                <div className="h-3 bg-gray-200 rounded w-2/3" />
+              </div>
+              <div className="w-32 h-24 bg-gray-200 rounded-xl flex-none" />
+            </div>
+          ))}
+        </div>
+      </section>
+    );
+  }
 
-        {/* Coming Soon state */}
-        {!loading && articles.length === 0 && (
+  // ── Empty state ──
+  if (!loading && articles.length === 0) {
+    return (
+      <section className="pb-24">
+        <div className="max-w-[1200px] mx-auto px-5">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
+            transition={{ duration: 0.6 }}
             className="py-24 flex flex-col items-center text-center"
           >
-            {/* Decorative ring */}
-            <div className="relative mb-8">
-              <div className="w-32 h-32 rounded-full bg-gradient-to-br from-primary/10 to-primary/30 flex items-center justify-center">
-                <div className="w-20 h-20 rounded-full bg-gradient-to-br from-primary/20 to-primary/50 flex items-center justify-center">
-                  <span className="text-4xl">✨</span>
-                </div>
-              </div>
-              {/* Orbiting dot */}
-              <motion.div
-                animate={{ rotate: 360 }}
-                transition={{ duration: 6, repeat: Infinity, ease: "linear" }}
-                className="absolute inset-0"
-              >
-                <div className="absolute top-1 left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-primary shadow-lg shadow-primary/40" />
-              </motion.div>
+            <div className="w-24 h-24 rounded-full bg-primary/10 flex items-center justify-center mb-6">
+              <BookOpen className="w-10 h-10 text-primary/50" />
             </div>
-
-            {/* Badge */}
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-semibold uppercase tracking-widest mb-5">
               <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
               Segera Hadir
             </div>
-
-            <h3 className="text-3xl font-bold text-text-heading mb-3 font-sans">
-              Coming Soon
-            </h3>
+            <h3 className="text-3xl font-bold text-text-heading mb-3">Belum Ada Artikel</h3>
             <p className="text-text-light text-sm max-w-sm leading-relaxed">
-              Konten sedang dipersiapkan oleh tim Dakwah Tulungagung.
-              Nantikan artikel-artikel bermanfaat yang akan segera hadir.
+              Konten sedang dipersiapkan. Nantikan artikel-artikel bermanfaat yang akan segera hadir.
             </p>
+          </motion.div>
+        </div>
+      </section>
+    );
+  }
 
-            {/* Decorative dots */}
-            <div className="flex gap-2 mt-8">
-              {[0, 1, 2].map((i) => (
-                <motion.div
-                  key={i}
-                  animate={{ opacity: [0.3, 1, 0.3] }}
-                  transition={{ duration: 1.5, repeat: Infinity, delay: i * 0.3 }}
-                  className="w-2 h-2 rounded-full bg-primary/40"
+  const [featured, ...rest] = articles;
+  const secondary = rest.slice(0, 3);
+  const listItems = rest.slice(3);
+
+  return (
+    <section className="pb-24 bg-white">
+      <div className="max-w-[1200px] mx-auto px-5">
+
+        {/* ── FEATURED ARTICLE (Hero besar) ── */}
+        {featured && (
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="mb-10"
+          >
+            <Link href={`/artikel/${featured.slug}`} className="group block">
+              <div className="relative w-full h-[400px] sm:h-[480px] rounded-2xl overflow-hidden mb-5">
+                <Image
+                  src={getDirectusAssetUrl(featured.gambar_utama)}
+                  alt={featured.judul}
+                  fill
+                  className="object-cover transition-transform duration-700 group-hover:scale-105"
+                  priority
                 />
-              ))}
-            </div>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                {/* Category badge */}
+                <div className="absolute top-5 left-5">
+                  <span className="bg-primary text-white text-xs font-bold px-3 py-1.5 rounded-md uppercase tracking-wider">
+                    {featured.kategori}
+                  </span>
+                </div>
+                {/* Title overlay on image */}
+                <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-8">
+                  <h2 className="text-white text-2xl sm:text-3xl font-bold leading-tight mb-2 group-hover:text-primary/90 transition-colors line-clamp-2">
+                    {featured.judul}
+                  </h2>
+                  <div className="flex items-center gap-4 text-white/70 text-xs">
+                    <span className="flex items-center gap-1.5">
+                      <Calendar className="w-3.5 h-3.5" />
+                      {formatTanggal(featured.tanggal_publish)}
+                    </span>
+                    <span className="flex items-center gap-1.5">
+                      <User className="w-3.5 h-3.5" />
+                      {featured.penulis}
+                    </span>
+                  </div>
+                </div>
+              </div>
+              {/* Ringkasan di bawah gambar */}
+              <p className="text-text-light text-sm leading-relaxed line-clamp-2">
+                {featured.ringkasan}
+              </p>
+            </Link>
           </motion.div>
         )}
 
-        {/* Article Grid */}
-        {!loading && articles.length > 0 && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {articles.map((article, index) => (
-              <ArtikelCard
+        {/* ── DIVIDER ── */}
+        <div className="flex items-center gap-3 mb-8">
+          <div className="w-1 h-6 bg-primary rounded-full" />
+          <h2 className="text-base font-bold text-text-heading tracking-wide uppercase">Artikel Terbaru</h2>
+          <div className="flex-1 h-px bg-border-default" />
+        </div>
+
+        {/* ── SECONDARY CARDS (3 kolom) ── */}
+        {secondary.length > 0 && (
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 mb-10">
+            {secondary.map((article, i) => (
+              <motion.div
                 key={article.id}
-                item={article}
-                featured={index === 0 && page === 1}
-                className={index === 0 && page === 1 ? "lg:col-span-2" : ""}
-              />
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.1, duration: 0.4 }}
+              >
+                <Link href={`/artikel/${article.slug}`} className="group block">
+                  <div className="relative w-full h-44 rounded-xl overflow-hidden mb-3">
+                    <Image
+                      src={getDirectusAssetUrl(article.gambar_utama)}
+                      alt={article.judul}
+                      fill
+                      className="object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+                    <div className="absolute top-3 left-3">
+                      <span className="bg-white/90 text-primary text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">
+                        {article.kategori}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2 text-[11px] text-text-faint mb-1.5">
+                    <Calendar className="w-3 h-3" />
+                    {formatTanggal(article.tanggal_publish)}
+                  </div>
+                  <h3 className="text-sm font-bold text-text-heading leading-snug line-clamp-3 group-hover:text-primary transition-colors">
+                    {article.judul}
+                  </h3>
+                </Link>
+              </motion.div>
             ))}
           </div>
         )}
 
-        {/* Load More */}
-        {!loading && hasMore && (
+        {/* ── DIVIDER ── */}
+        {listItems.length > 0 && (
+          <div className="flex items-center gap-3 mb-6">
+            <div className="w-1 h-6 bg-primary rounded-full" />
+            <h2 className="text-base font-bold text-text-heading tracking-wide uppercase">Baca Juga</h2>
+            <div className="flex-1 h-px bg-border-default" />
+          </div>
+        )}
+
+        {/* ── LIST ARTIKEL (thumbnail kanan, teks kiri) ── */}
+        {listItems.length > 0 && (
+          <div className="divide-y divide-border-default">
+            {listItems.map((article, i) => (
+              <motion.div
+                key={article.id}
+                initial={{ opacity: 0, x: -10 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.05, duration: 0.4 }}
+              >
+                <Link
+                  href={`/artikel/${article.slug}`}
+                  className="group flex items-start gap-4 py-5 hover:bg-bg-light/60 transition-colors -mx-2 px-2 rounded-lg"
+                >
+                  {/* Teks kiri */}
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 mb-1.5">
+                      <span className="text-[10px] font-bold text-primary uppercase tracking-wider bg-primary/8 px-2 py-0.5 rounded">
+                        {article.kategori}
+                      </span>
+                      <span className="text-[11px] text-text-faint flex items-center gap-1">
+                        <Calendar className="w-3 h-3" />
+                        {formatTanggal(article.tanggal_publish)}
+                      </span>
+                    </div>
+                    <h3 className="text-sm sm:text-base font-bold text-text-heading leading-snug mb-2 line-clamp-2 group-hover:text-primary transition-colors">
+                      {article.judul}
+                    </h3>
+                    <p className="text-xs sm:text-sm text-text-light leading-relaxed line-clamp-2 hidden sm:block">
+                      {article.ringkasan}
+                    </p>
+                    <div className="flex items-center gap-1.5 mt-2 text-[11px] text-text-faint">
+                      <User className="w-3 h-3" />
+                      {article.penulis}
+                    </div>
+                  </div>
+
+                  {/* Thumbnail kanan */}
+                  <div className="relative w-28 h-20 sm:w-36 sm:h-24 flex-none rounded-xl overflow-hidden">
+                    <Image
+                      src={getDirectusAssetUrl(article.gambar_utama)}
+                      alt={article.judul}
+                      fill
+                      className="object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                  </div>
+                </Link>
+              </motion.div>
+            ))}
+          </div>
+        )}
+
+        {/* ── LOAD MORE ── */}
+        {hasMore && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="mt-16 text-center"
+            className="mt-12 text-center"
           >
             <Button
               variant="secondary"
@@ -525,3 +721,4 @@ export default function ArtikelGrid({
     </section>
   );
 }
+
