@@ -20,9 +20,24 @@ const amiri = Amiri({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://dakwahtulungagung.vercel.app'),
   title: "Dakwah Tulungagung - Inspirasi, Informasi & Solusi Islami",
   description:
     "Membangun ummat dengan nilai-nilai Islami yang moderat, akurat, dan memberikan solusi nyata bagi kehidupan sehari-hari di Tulungagung dan sekitarnya.",
+  keywords: ["Dakwah", "Tulungagung", "Kajian", "Islam", "Artikel Islami", "Jadwal Kajian", "Tanya Jawab Agama"],
+  openGraph: {
+    title: "Dakwah Tulungagung",
+    description: "Inspirasi, Informasi & Solusi Islami di Tulungagung dan sekitarnya.",
+    url: "/",
+    siteName: "Dakwah Tulungagung",
+    locale: "id_ID",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Dakwah Tulungagung",
+    description: "Inspirasi, Informasi & Solusi Islami di Tulungagung dan sekitarnya.",
+  },
   icons: {
     icon: "/favicon-square.png",
   },
