@@ -66,10 +66,10 @@ const TikTokIcon = ({ className }: { className?: string }) => (
 );
 
 const SOCIAL_LINKS = [
-  { platform: "Instagram", href: "#", icon: <InstagramIcon className="w-4 h-4" /> },
-  { platform: "Facebook", href: "#", icon: <FacebookIcon className="w-4 h-4" /> },
-  { platform: "YouTube", href: "#", icon: <YoutubeIcon className="w-4 h-4" /> },
-  { platform: "TikTok", href: "#", icon: <TikTokIcon className="w-4 h-4" /> },
+  { platform: "Instagram", href: "https://www.instagram.com/dakwahtulungagung/", icon: <InstagramIcon className="w-4 h-4" /> },
+  { platform: "Facebook",  href: "https://web.facebook.com/dakwahtulungagung",   icon: <FacebookIcon  className="w-4 h-4" /> },
+  { platform: "YouTube",   href: "https://www.youtube.com/@DakwahTulungagung",   icon: <YoutubeIcon   className="w-4 h-4" /> },
+  { platform: "TikTok",    href: "https://www.tiktok.com/@dakwahtulungaung",     icon: <TikTokIcon    className="w-4 h-4" /> },
 ];
 
 export default function FooterSection() {
@@ -139,6 +139,8 @@ export default function FooterSection() {
                   href={social.href}
                   variant="ghost"
                   className="text-xs justify-center px-4"
+                  target="_blank"
+                  rel="noopener noreferrer"
                 >
                   {social.icon}
                   {social.platform}
