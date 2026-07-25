@@ -54,7 +54,7 @@ export default function JadwalComingSoon() {
           <Button href="/" variant="secondary">
             Kembali ke Beranda
           </Button>
-          <Button href="https://wa.me/6281234567890" target="_blank" variant="primary">
+          <Button href="https://wa.me/6285731110003" target="_blank" variant="primary">
             Hubungi Admin via WA
           </Button>
         </div>

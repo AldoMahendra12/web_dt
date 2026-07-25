@@ -40,10 +40,11 @@ export default function ProgramCTA() {
                 Donasi Sekarang
               </Button>
               <Button
-                href="#"
+                href="https://wa.me/6285731110003"
+                target="_blank"
+                rel="noopener noreferrer"
                 variant="ghost"
                 size="lg"
-                
               >
                 Hubungi Kami
               </Button>

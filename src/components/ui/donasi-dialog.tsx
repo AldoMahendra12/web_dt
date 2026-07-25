@@ -130,7 +130,7 @@ export default function DonasiDialog({ open, onClose }: DonasiDialogProps) {
               <p className="text-white/60 text-xs sm:text-sm">via WhatsApp</p>
             </div>
             <Button
-              href="https://wa.me/6285123456789?text=Assalamu%27alaikum%2C%20saya%20ingin%20konfirmasi%20donasi"
+              href="https://wa.me/6285731110003?text=Assalamu%27alaikum%2C%20saya%20ingin%20konfirmasi%20donasi"
               target="_blank"
               rel="noopener noreferrer"
               variant="primary"

@@ -55,9 +55,9 @@ export const kantorData: Kantor = {
   alamat: "XW4R+54P, Jl. Gajah Mada, Bangoan, Kec. Kedungwaru, Kabupaten Tulungagung, Jawa Timur 66229",
   jam_operasional: "Senin - Sabtu: 08.00 - 16.00 WIB",
   kontak: {
-    telepon: "0355-123456",
+    telepon: "+62 857-3111-0003",
     email: "info@dakwahtulungagung.or.id"
   },
   maps_embed_url: "https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3951.1594887580165!2d111.88574287594768!3d-8.056916991950208!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zOMKwMDMnMjQuOSJTIDExMcKwNTMnMTcuNiJF!5e0!3m2!1sid!2sid!4v1751363600000!5m2!1sid!2sid",
-  whatsapp_number: "6281234567890"
+  whatsapp_number: "6285731110003"
 };
