@@ -101,22 +101,44 @@ export default function ProgramDialog({ open, program, onClose }: ProgramDialogP
           </div>
 
           {/* Footer Area */}
-          <div className="flex justify-between items-center pt-2">
-            <div>
-              <p className="text-white text-lg font-bold leading-tight">Dukung Program Ini</p>
-              <p className="text-white/60 text-sm">Bantu kami mewujudkannya</p>
+          <div className="flex flex-col gap-3 pt-2">
+            {/* YouTube Playlist Link (shown only for Dakwah programs) */}
+            {program.youtubePlaylistUrl && (
+              <a
+                href={program.youtubePlaylistUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-3 w-full px-4 py-3 rounded-xl border border-red-500/40 bg-red-500/10 hover:bg-red-500/20 transition-all group/yt"
+              >
+                {/* YouTube Icon */}
+                <svg className="w-6 h-6 text-red-400 shrink-0" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                </svg>
+                <div className="flex-1 min-w-0">
+                  <p className="text-white text-sm font-semibold">Tonton di YouTube</p>
+                  <p className="text-white/50 text-xs truncate">Playlist kajian terkait program ini</p>
+                </div>
+                <svg className="w-4 h-4 text-white/40 group-hover/yt:text-white/80 group-hover/yt:translate-x-0.5 transition-all" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M7 17L17 7M17 7H7M17 7V17" />
+                </svg>
+              </a>
+            )}
+
+            <div className="flex justify-between items-center">
+              <div>
+                <p className="text-white text-lg font-bold leading-tight">Dukung Program Ini</p>
+                <p className="text-white/60 text-sm">Bantu kami mewujudkannya</p>
+              </div>
+              <Button
+                href="https://wa.me/6285731110003?text=Assalamu%27alaikum%2C%20saya%20ingin%20berdonasi%20untuk%20program%20ini"
+                target="_blank"
+                rel="noopener noreferrer"
+                variant="primary"
+                className="px-6 py-3 whitespace-nowrap"
+              >
+                Donasi Sekarang
+              </Button>
             </div>
-            {/* The primary button will open Donasi - in a real app this might trigger DonasiDialog, 
-                for now we just link to a whatsapp or we can leave it as Hubungi Kami */}
-            <Button
-              href="https://wa.me/6285123456789?text=Assalamu%27alaikum%2C%20saya%20ingin%20berdonasi%20untuk%20program%20ini"
-              target="_blank"
-              rel="noopener noreferrer"
-              variant="primary"
-              className="px-6 py-3 whitespace-nowrap"
-            >
-              Donasi Sekarang
-            </Button>
           </div>
         </div>
       </div>

@@ -79,6 +79,22 @@ export interface ProgramItem {
   description: string;
   fullDescription?: string;
   icon: string;
+  youtubePlaylistUrl?: string;
+  reports?: {
+    date: string;
+    title: string;
+    description: string;
+    imageUrl?: string;
+    stats?: { label: string; value: string }[];
+  }[];
+  vendorProfile?: {
+    name: string;
+    logo?: string;
+    description: string;
+    contribution: string;
+    contactUrl?: string;
+    website?: string;
+  };
 }
 
 /** Laporan (Report) item */

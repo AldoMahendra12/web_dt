@@ -1,27 +1,36 @@
 "use client";
 
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Construction, X, Sparkles } from "lucide-react";
 import ArtikelHero from "@/components/sections/artikel/ArtikelHero";
 import ArtikelGrid from "@/components/sections/artikel/ArtikelGrid";
 
 /* =========================================
-   ArtikelPageClient — Client Wrapper
-   Mengelola shared state antara Hero
-   (filter chips + search) dan Grid (render).
+   ArtikelInner - Reads URL search params
+   Must be inside Suspense boundary.
    ========================================= */
-
-export default function ArtikelPageClient() {
+function ArtikelInner() {
+  const searchParams = useSearchParams();
   const [selectedCategory, setSelectedCategory] = useState("Semua");
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState(
+    searchParams.get("search") ?? ""
+  );
   const [showPopup, setShowPopup] = useState(false);
 
-  // Tampilkan popup setelah 600ms (beri waktu halaman render dulu)
+  // Sync initial search query from URL on mount
   useEffect(() => {
+    const q = searchParams.get("search");
+    if (q) setSearchQuery(q);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Show popup after 600ms (only if there is no search query pre-filled)
+  useEffect(() => {
+    if (searchQuery) return; // skip popup when user searched from hero
     const timer = setTimeout(() => setShowPopup(true), 600);
     return () => clearTimeout(timer);
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleCategoryChange = useCallback((cat: string) => {
     setSelectedCategory(cat);
@@ -58,7 +67,6 @@ export default function ArtikelPageClient() {
               className="fixed inset-0 z-[2001] flex items-center justify-center p-5 pointer-events-none"
             >
               <div className="relative pointer-events-auto w-full max-w-md bg-white rounded-3xl shadow-2xl overflow-hidden">
-
                 {/* Top decorative bar */}
                 <div className="h-1.5 w-full bg-gradient-to-r from-primary via-primary-dark to-accent-teal" />
 
@@ -131,11 +139,30 @@ export default function ArtikelPageClient() {
       <ArtikelHero
         onCategoryChange={handleCategoryChange}
         onSearchChange={handleSearchChange}
+        initialSearch={searchQuery}
       />
       <ArtikelGrid
         selectedCategory={selectedCategory}
         searchQuery={searchQuery}
       />
     </main>
+  );
+}
+
+/* =========================================
+   ArtikelPageClient - Exported wrapper
+   Suspense boundary required for useSearchParams
+   ========================================= */
+export default function ArtikelPageClient() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-bg-light flex items-center justify-center">
+          <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin" />
+        </div>
+      }
+    >
+      <ArtikelInner />
+    </Suspense>
   );
 }

@@ -28,16 +28,18 @@ export type ArtikelCategory = (typeof ARTIKEL_CATEGORIES)[number];
 interface ArtikelHeroProps {
   onCategoryChange: (cat: string) => void;
   onSearchChange: (q: string) => void;
+  initialSearch?: string;
 }
 
 export default function ArtikelHero({
   onCategoryChange,
   onSearchChange,
+  initialSearch = "",
 }: ArtikelHeroProps) {
   const [isFocused, setIsFocused] = useState(false);
   const [selectedCategory, setSelectedCategory] =
     useState<ArtikelCategory>("Semua");
-  const [searchValue, setSearchValue] = useState("");
+  const [searchValue, setSearchValue] = useState(initialSearch);
 
   const debouncedSearch = useDebouncedCallback((value: string) => {
     onSearchChange(value);

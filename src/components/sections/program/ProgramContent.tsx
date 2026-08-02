@@ -1,10 +1,14 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import type { ProgramCategory, ProgramItem } from "@/types";
 import Button from "@/components/ui/button";
 import ProgramDialog from "@/components/ui/program-dialog";
+
+/** Categories that navigate to a dedicated page instead of a dialog */
+const PAGE_CATEGORIES = ["sosial", "pendidikan", "mitra"];
 
 /* =========================================
    ProgramContent — Card Grid with Filtering
@@ -22,7 +26,16 @@ export default function ProgramContent({
   categories,
   items,
 }: ProgramContentProps) {
+  const router = useRouter();
   const [selectedProgram, setSelectedProgram] = useState<ProgramItem | null>(null);
+
+  const handleCardSelect = (item: ProgramItem) => {
+    if (PAGE_CATEGORIES.includes(item.categoryId)) {
+      router.push(`/program/${item.id}`);
+    } else {
+      setSelectedProgram(item);
+    }
+  };
 
   /* Active category meta */
   const activeCategory = categories.find((c) => c.id === activeId);
@@ -58,7 +71,8 @@ export default function ProgramContent({
                 key={item.id} 
                 item={item} 
                 index={index} 
-                onSelect={() => setSelectedProgram(item)}
+                isPageLink={PAGE_CATEGORIES.includes(item.categoryId)}
+                onSelect={() => handleCardSelect(item)}
               />
             ))}
           </motion.div>
@@ -74,14 +88,16 @@ export default function ProgramContent({
   );
 }
 
-/* ── Individual Program Card ── */
+/* ✦ Individual Program Card ✦ */
 function ProgramCard({
   item,
   index,
+  isPageLink = false,
   onSelect,
 }: {
   item: ProgramItem;
   index: number;
+  isPageLink?: boolean;
   onSelect: () => void;
 }) {
   return (
@@ -112,7 +128,7 @@ function ProgramCard({
         size="default" 
         className="mt-auto mx-auto whitespace-nowrap w-fit"
       >
-        Selengkapnya
+        {isPageLink ? "Lihat Detail" : "Selengkapnya"}
         <svg
           width="14"
           height="14"
@@ -123,7 +139,10 @@ function ProgramCard({
           strokeLinecap="round"
           strokeLinejoin="round"
         >
-          <path d="M7 17L17 7M17 7H7M17 7V17" />
+          {isPageLink 
+            ? <path d="M7 17L17 7M17 7H7M17 7V17" />
+            : <path d="M7 17L17 7M17 7H7M17 7V17" />
+          }
         </svg>
       </Button>
     </motion.div>

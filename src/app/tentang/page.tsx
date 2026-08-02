@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect, Suspense } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { latarBelakangData, visiMisiData, strukturData, kantorData } from '@/data/tentang';
 import NavBar from '@/components/sections/nav-bar';
 import TentangHero from '@/components/sections/tentang/TentangHero';
@@ -13,8 +14,16 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 export type TentangSection = 'latar-belakang' | 'visi-misi' | 'struktur' | 'lokasi';
 
-export default function TentangPage() {
+function TentangPageInner() {
+  const searchParams = useSearchParams();
   const [activeSection, setActiveSection] = useState<TentangSection>('latar-belakang');
+
+  useEffect(() => {
+    const sec = searchParams.get('section') as TentangSection | null;
+    if (sec && ['latar-belakang', 'visi-misi', 'struktur', 'lokasi'].includes(sec)) {
+      setActiveSection(sec);
+    }
+  }, [searchParams]);
 
   const renderSection = () => {
     switch (activeSection) {
@@ -32,23 +41,35 @@ export default function TentangPage() {
   };
 
   return (
+    <main className="min-h-screen bg-white">
+      <TentangHero activeSection={activeSection} onSectionChange={setActiveSection} />
+      
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={activeSection}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -20 }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
+        >
+          {renderSection()}
+        </motion.div>
+      </AnimatePresence>
+    </main>
+  );
+}
+
+export default function TentangPage() {
+  return (
     <>
       <NavBar />
-      <main className="min-h-screen bg-white">
-        <TentangHero activeSection={activeSection} onSectionChange={setActiveSection} />
-        
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={activeSection}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.5, ease: "easeOut" }}
-          >
-            {renderSection()}
-          </motion.div>
-        </AnimatePresence>
-      </main>
+      <Suspense fallback={
+        <div className="min-h-screen bg-white flex items-center justify-center">
+          <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin" />
+        </div>
+      }>
+        <TentangPageInner />
+      </Suspense>
       <FooterSection />
     </>
   );
