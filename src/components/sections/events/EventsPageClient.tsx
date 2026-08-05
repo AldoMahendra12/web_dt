@@ -37,8 +37,8 @@ const EVENTS_DATA: Event[] = [
     time: "07.30 – 11.30 WIB",
     location: "Masjid Al Hidayah",
     locationDetail: "Ds. Bangoan, Kec. Kedungwaru, Tulungagung",
-    poster: "/assets/event-muslimah26.jpeg",
-    registrationLink: "https://s.id/kajianmuslimah-090826",
+    poster: "/assets/kajianmuslimah-dt.jpeg",
+    registrationLink: "https://s.id/kajianmuslimah-dt",
     isFree: true,
     isUpcoming: true,
     description:

@@ -19,9 +19,11 @@ import { X, ArrowRight, CalendarDays } from "lucide-react";
 
 const EVENT_CONFIG = {
   enabled: true,
-  image: "/assets/event-muslimah26.jpeg",
+  image: "/assets/kajianmuslimah-dt.jpeg",
+  /** Deskripsi alt text gambar */
   alt: "Poster Event Kajian Muslimah - Dakwah Tulungagung",
-  link: "https://s.id/kajianmuslimah-090826",
+  /** Link pendaftaran / info event */
+  link: "https://s.id/kajianmuslimah-dt",
   buttonText: "Daftar Sekarang",
 };
 
