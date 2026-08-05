@@ -4,7 +4,7 @@ export const latarBelakangData: LatarBelakang = {
   headline: "Menjadi Jembatan Kebaikan untuk Umat",
   body: [
     "Berawal dari sebuah kesadaran akan pentingnya dakwah yang menyentuh akar rumput, lembaga kami hadir di tengah masyarakat bukan sekadar sebagai wadah kajian, melainkan sebagai pusat solusi bagi problematika umat. Kami percaya bahwa Islam adalah agama yang memberikan jawaban atas seluruh dimensi kehidupan—baik spiritual, sosial, maupun ekonomi.",
-    "Semboyan kami Inspirasi, Informasi, dan Solusi adalah ruh dari setiap langkah yang kami ambil. Kami bergerak dengan keyakinan bahwa dakwah yang kuat harus dibarengi with aksi nyata. Oleh karena itu, selain konsisten menghidupkan syiar melalui kajian rutin dan Tabligh Akbar, kami juga berkomitmen hadir dalam ruang-ruang kemanusiaan."
+    "Semboyan kami Inspirasi, Informasi, dan Solusi adalah ruh dari setiap langkah yang kami ambil. Kami bergerak dengan keyakinan bahwa dakwah yang kuat bersamaan dengan aksi yang nyata. Oleh karena itu, selain konsisten menghidupkan syiar melalui kajian rutin dan Tabligh Akbar, kami juga berkomitmen hadir dalam ruang-ruang kemanusiaan."
   ],
   image_url: "/activities/berbagi.jpg", // Using one of the existing public images
 };
