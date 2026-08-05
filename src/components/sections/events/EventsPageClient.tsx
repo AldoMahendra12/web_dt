@@ -34,7 +34,7 @@ const EVENTS_DATA: Event[] = [
     title: "Kajian Khusus Muslimah: Pola Asuh Anak Tangguh di Akhir Zaman",
     category: "Kajian Muslimah",
     date: "Ahad, 9 Agustus 2026",
-    time: "07.30 – 11.30 WIB",
+    time: "08.00 – 11.30 WIB",
     location: "Masjid Al Hidayah",
     locationDetail: "Ds. Bangoan, Kec. Kedungwaru, Tulungagung",
     poster: "/assets/kajianmuslimah-dt.jpeg",
