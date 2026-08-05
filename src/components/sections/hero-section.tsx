@@ -228,8 +228,8 @@ export default function HeroSection() {
                 </button>
               </form>
 
-              {/* Recommendation Tags */}
-              <div className="flex flex-wrap items-center gap-2 mt-4">
+              {/* Recommendation Tags (Hidden on mobile to show more hero image) */}
+              <div className="hidden sm:flex flex-wrap items-center gap-2 mt-4">
                 <span className="text-xs text-white/70 font-semibold">Rekomendasi:</span>
                 {["Laporan", "Jadwal Kajian", "Jumat Berkah", "Donasi", "Tahsin"].map((tag) => (
                   <button
