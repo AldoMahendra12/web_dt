@@ -18,7 +18,7 @@ import { X, ArrowRight, CalendarDays } from "lucide-react";
    ========================================= */
 
 const EVENT_CONFIG = {
-  enabled: true,
+  enabled: false,
   image: "/assets/kajianmuslimah-dt.jpeg",
   /** Deskripsi alt text gambar */
   alt: "Poster Event Kajian Muslimah - Dakwah Tulungagung",
