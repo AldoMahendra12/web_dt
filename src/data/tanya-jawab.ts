@@ -11,11 +11,22 @@ export interface TanyaJawabEntry {
   pertanyaan: string;
   jawaban: string; // raw text, may contain Arabic
   ustadz: string;
+  gambar?: string; // Path gambar yang sesuai dengan pertanyaan
+}
+
+/** Fallback helper jika gambar belum diset */
+export function getTanyaJawabImage(item: TanyaJawabEntry): string {
+  if (item.gambar && item.gambar.trim() !== "") {
+    return item.gambar;
+  }
+  return "/assets/hero-bg.jpg";
 }
 
 export const TANYA_JAWAB_DATA: TanyaJawabEntry[] = [
   {
     id: 1,
+    kategori: "Muamalah & Nakes",
+    gambar: "/assets/pelatihan.jpeg",
     ustadz: "Ustadz Moh. Shohibul Umam, Lc., M.Pd.",
     pertanyaan:
       "Sebagai seorang nakes, terkadang tanpa disadari pernah berucap atau bertindak yang melukai hati pasien. Namun baru menyadarinya setelah beberapa waktu berlalu. Saat ingin minta maaf, Qadarullah pasien tersebut sudah pulang dari rumah sakit atau bahkan sudah meninggal dunia. Bagaimana cara meminta maaf dan menebus kesalahan tersebut? Khawatir mendapatkan Qisas di Yaumul Akhir.",
@@ -39,6 +50,8 @@ Wallahu a'lam`,
   },
   {
     id: 2,
+    kategori: "Akidah & Medis",
+    gambar: "/assets/safari-dakwah.jpeg",
     ustadz: "Ustadz Moh. Shohibul Umam, Lc., M.Pd.",
     pertanyaan:
       "Saat mendapatkan pasien kritis yang akan meninggal dunia sedangkan pasien tersebut tidak ada keluarga yang menunggui dan kita tidak tahu apakah pasien tersebut seorang muslim atau non muslim. Bolehkah kita mentalqinya?",
@@ -54,6 +67,8 @@ Wallahu a'lam`,
   },
   {
     id: 3,
+    kategori: "Tazkiyatun Nufus",
+    gambar: "/assets/hero-bg0.jpeg",
     ustadz: "Ustadz Moh. Shohibul Umam, Lc., M.Pd.",
     pertanyaan:
       "Saya sering melihat kenyataan bahwa muslim yang jauh dari Allah (tidak sholat, zalim dengan orang lain, bermaksiat) hidupnya lancar dan baik-baik saja. Sedangkan muslim yang taat, hidupnya tidak sebaik dan selancar mereka, bahkan kerap terkena cobaan. Mohon penjelasan yang lebih komprehensif tentang istidraj dan ujian bagi orang beriman.",
@@ -79,6 +94,8 @@ Wallahu a'lam`,
   },
   {
     id: 4,
+    kategori: "Keluarga & Parenting",
+    gambar: "/assets/kajianmuslimah-dt.jpeg",
     penanya: "Perempuan / 36 tahun",
     ustadz: "Ustadz Moh. Shohibul Umam, Lc., M.Pd.",
     pertanyaan:
@@ -97,6 +114,8 @@ Wallahu a'lam`,
   },
   {
     id: 5,
+    kategori: "Ibadah & Shalat",
+    gambar: "/assets/hero-bg2.jpeg",
     ustadz: "Ustadz Moh. Shohibul Umam, Lc., M.Pd.",
     pertanyaan:
       "Bolehkah seorang nakes ketika akan melakukan suatu tindakan yang dirasa sulit, melakukan sholat sunnah 2 rakaat dulu untuk memohon pertolongan dan petunjuk dari Allah agar dimudahkan? Apakah hal tersebut dibolehkan untuk dirutinkan dan bukan termasuk bid'ah?",
@@ -110,6 +129,8 @@ Boleh saja, karena Nabi shallallahu 'alaihi wa sallam diceritakan oleh sahabat J
   },
   {
     id: 6,
+    kategori: "Amanah & Profesi",
+    gambar: "/assets/pelatihan.jpeg",
     penanya: "Perempuan / 46 tahun",
     ustadz: "Ustadz Moh. Shohibul Umam, Lc., M.Pd.",
     pertanyaan:
@@ -134,6 +155,8 @@ Wallahu a'lam`,
   },
   {
     id: 7,
+    kategori: "Pendidikan & Adab",
+    gambar: "/assets/kajianmuslimah-dt.jpeg",
     penanya: "Perempuan / 36 tahun",
     ustadz: "Ustadz Moh. Shohibul Umam, Lc., M.Pd.",
     pertanyaan:
@@ -150,6 +173,8 @@ Wallahu a'lam`,
   },
   {
     id: 8,
+    kategori: "Muamalah & Fiqih",
+    gambar: "/assets/pelatihan.jpeg",
     ustadz: "Ustadz Moh. Shohibul Umam, Lc., M.Pd.",
     pertanyaan:
       "Saya adalah bidan yang bekerja di RS swasta. Kami kadang mau tidak mau harus merekayasa data hasil pemeriksaan pasien supaya bisa ditanggung BPJS (dengan niatan menolong pasien). Apakah kami berdosa? Apakah gaji dari pendapatan BPJS seperti ini halal?",
@@ -167,6 +192,8 @@ Wallahu a'lam`,
   },
   {
     id: 9,
+    kategori: "Adab & Sunnah",
+    gambar: "/assets/hero-bg.jpg",
     ustadz: "Ustadz Moh. Shohibul Umam, Lc., M.Pd.",
     pertanyaan:
       "Sebentar lagi musim haji. Adakah ajaran bahwa kita harus berkunjung kepada yang baru pulang haji atau umrah?",
@@ -186,6 +213,8 @@ Allahu a'lam.`,
   },
   {
     id: 10,
+    kategori: "Fiqih Qurban",
+    gambar: "/assets/jumat-berkah.jpeg",
     ustadz: "Ustadz Moh. Shohibul Umam, Lc., M.Pd.",
     pertanyaan:
       "Bila kepala keluarga berqurban kambing atau sapi atas nama keluarganya (anak dan istri), apakah istri dan anak juga harus menahan diri dari potong rambut dan kuku selama 1 Dzulhijjah hingga qurban disembelih?",
@@ -205,6 +234,8 @@ Wallahu a'lam`,
   },
   {
     id: 11,
+    kategori: "Tafsir & Akidah",
+    gambar: "/assets/hero-bg0.jpeg",
     ustadz: "Ustadz Moh. Shohibul Umam, Lc., M.Pd.",
     pertanyaan:
       "Bagaimana syarah/tafsirnya jika istiqamah tidak sedih (Surat Yunus ayat 62, Surat Al-Baqarah ayat 38)? Sedangkan ayahnya Nabi Musa sedih sampai buta, dan Nabi ﷺ juga bersedih saat ditinggal wafat istrinya. Apakah para Nabi bukan termasuk yang istiqamah?",
@@ -230,6 +261,8 @@ Wallahu a'lam`,
   },
   {
     id: 12,
+    kategori: "Dakwah & Ibadah",
+    gambar: "/assets/live-kajian.jpeg",
     ustadz: "Ustadz Moh. Shohibul Umam, Lc., M.Pd.",
     pertanyaan:
       "Bagaimana cara mengingatkan sholat dengan cara yang baik dan halus? Banyak dari teman-teman nakes yang sering melalaikan sholat dengan alasan sibuk.",
@@ -251,6 +284,8 @@ Wallahu a'lam bisshowab`,
   },
   {
     id: 13,
+    kategori: "Ibadah & Rumah Tangga",
+    gambar: "/assets/kajianmuslimah-dt.jpeg",
     ustadz: "Ustadz Moh. Shohibul Umam, Lc., M.Pd.",
     pertanyaan:
       "Sebaiknya sholat tahajjud dilakukan sendiri atau berjamaah bersama suami? Saya merasa lebih nyaman sholat sendiri dan leluasa berdoa sendiri, tapi suami bilang sunnahnya berjamaah.",
@@ -264,6 +299,8 @@ Wallahu a'lam`,
   },
   {
     id: 14,
+    kategori: "Fiqih Waris",
+    gambar: "/assets/hero-bg3.jpeg",
     ustadz: "Ustadz Moh. Shohibul Umam, Lc., M.Pd.",
     pertanyaan:
       "Seorang wanita meninggal dunia dengan meninggalkan suami, 1 anak laki-laki (dari suami sebelumnya), dan 1 kakak perempuan. (1) Apakah tabungan haji termasuk harta waris? (2) Apakah tabungan dari sisa nafkah suami langsung dibagi atau dikeluarkan dulu? (3) Apakah kakak perempuan berhak mendapat warisan?",
@@ -285,6 +322,8 @@ Wallahu a'lam`,
   },
   {
     id: 15,
+    kategori: "Rukhshah Shalat",
+    gambar: "/assets/safari-dakwah.jpeg",
     ustadz: "Ustadz Moh. Shohibul Umam, Lc., M.Pd.",
     pertanyaan:
       "Bagaimana hukumnya sering menjamak sholat? Saya perawat bedah dan kalau operasi sering sekali jamak 2 sholat karena durasi operasi yang lama. Mau gantian perawat juga tidak bisa karena keterbatasan SDM.",
@@ -306,6 +345,8 @@ Wallahu a'lam`,
   },
   {
     id: 16,
+    kategori: "Adab Medis & ICU",
+    gambar: "/assets/pelatihan.jpeg",
     ustadz: "Ustadz Moh. Shohibul Umam, Lc., M.Pd.",
     pertanyaan:
       "Apa yang bisa kita lakukan sebagai keluarga bila ada saudara atau anggota keluarga yang sedang dirawat di ICU dalam keadaan koma agar kita bisa tetap mendampingi untuk talqin, sementara kita tahu bahwa tidak boleh ada penunggu pasien di ruang ICU?",
@@ -325,6 +366,8 @@ Wallahua'lam`,
   },
   {
     id: 17,
+    kategori: "Kesehatan Mental & Doa",
+    gambar: "/assets/kajianmuslimah-dt.jpeg",
     ustadz: "Ustadz Moh. Shohibul Umam, Lc., M.Pd.",
     pertanyaan:
       "Beberapa pekan yang lalu saya diberi ujian yang cukup membuat saya tertekan hingga menimbulkan rasa cemas yang hebat. Alhamdulillah Allah beri pertolongan dan rasa cemas sudah berangsur hilang. Namun terkadang rasa cemas itu muncul tiba-tiba. Mohon nasehatnya, ikhtiar apa yang bisa dilakukan untuk menepis rasa cemas saat muncul kembali?",

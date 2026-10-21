@@ -130,6 +130,7 @@ export interface TanyaJawabItem {
   pertanyaan: string;
   jawaban: string;
   sort: number;
+  gambar?: string | null;
 }
 
 /** Kategori valid untuk artikel */

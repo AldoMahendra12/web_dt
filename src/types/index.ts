@@ -101,10 +101,13 @@ export interface ProgramItem {
 export interface LaporanItem {
   id: string;
   year: number;
-  type: 'keuangan' | 'kegiatan';
+  month?: string;
+  monthIndex?: number;
+  type?: 'keuangan' | 'kegiatan';
   title: string;
   description: string;
   fileUrl: string;
+  pdfUrl?: string;
 }
 
 /** Jadwal Kajian types */

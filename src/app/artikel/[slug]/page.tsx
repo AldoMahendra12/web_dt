@@ -162,23 +162,31 @@ export default async function ArticleDetailPage({ params }: ArticleDetailPagePro
                 
                 {/* Render Nested Tanya Jawab list if category is Tanya Jawab */}
                 {article.kategori === "Tanya Jawab" && article.konten_tanya_jawab && article.konten_tanya_jawab.length > 0 && (
-                  <div className="mt-8 space-y-8 pt-8 border-t border-border-default">
+                  <div className="mt-8 space-y-6 pt-8 border-t border-border-default">
                     {article.konten_tanya_jawab
                       .sort((a, b) => a.sort - b.sort)
                       .map((qa, index) => (
-                        <div key={qa.id} className="space-y-4">
-                          <div className="flex gap-3 items-start">
-                            <div className="w-7 h-7 rounded-lg bg-amber-500 text-white font-bold flex items-center justify-center text-sm flex-shrink-0 mt-1">
+                        <div key={qa.id} className="rounded-2xl border border-amber-200/80 bg-amber-50/20 overflow-hidden p-6 sm:p-7 shadow-sm">
+                          <div className="flex gap-3.5 items-start mb-4">
+                            <div className="w-8 h-8 rounded-xl bg-amber-500 text-white font-bold flex items-center justify-center text-sm flex-shrink-0 mt-0.5 shadow-sm">
                               {index + 1}
                             </div>
-                            <div>
-                              <h3 className="text-xl font-bold text-text-heading mt-0.5 mb-3 leading-snug">
-                                {qa.pertanyaan}
-                              </h3>
-                              <div className="space-y-3 pl-1">
-                                {renderParagraphs(qa.jawaban)}
-                              </div>
+                            <h3 className="text-lg sm:text-xl font-bold text-text-heading leading-snug">
+                              {qa.pertanyaan}
+                            </h3>
+                          </div>
+                          {qa.gambar && (
+                            <div className="relative w-full h-56 sm:h-64 rounded-xl overflow-hidden mb-4 shadow-sm bg-gray-100">
+                              <Image
+                                src={qa.gambar.startsWith("http") || qa.gambar.startsWith("/") ? qa.gambar : getDirectusAssetUrl(qa.gambar)}
+                                alt={qa.pertanyaan}
+                                fill
+                                className="object-cover"
+                              />
                             </div>
+                          )}
+                          <div className="space-y-3 pt-3 border-t border-amber-200/50">
+                            {renderParagraphs(qa.jawaban)}
                           </div>
                         </div>
                     ))}
