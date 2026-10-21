@@ -4,12 +4,10 @@ import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import { Calendar, User, ArrowUpRight, MessageCircleQuestion, ChevronDown, Loader2, BookOpen, Maximize2, X } from "lucide-react";
+import { Calendar, User, ArrowUpRight, MessageCircleQuestion, ChevronDown, Loader2, BookOpen } from "lucide-react";
 import Button from "@/components/ui/button";
 import { getDirectusAssetUrl, type DirectusArtikelItem, type TanyaJawabItem } from "@/lib/directus";
-import { TANYA_JAWAB_DATA, type TanyaJawabEntry, getTanyaJawabImage } from "@/data/tanya-jawab";
 import { MOCK_ARTIKEL } from "@/data/artikel";
-import TanyaJawabStaticGrid from "@/components/sections/artikel/TanyaJawabStaticGrid";
 
 /* =========================================
    ArtikelGrid — Client Component
@@ -251,11 +249,6 @@ export default function ArtikelGrid({
   selectedCategory,
   searchQuery,
 }: ArtikelGridProps) {
-  // ── Shortcircuit: render static Q&A when Tanya Jawab is selected ──
-  if (selectedCategory === "Tanya Jawab") {
-    return <TanyaJawabStaticGrid searchQuery={searchQuery} />;
-  }
-
   const [articles, setArticles] = useState<DirectusArtikelItem[]>([]);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);

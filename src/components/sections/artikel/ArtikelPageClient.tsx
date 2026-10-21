@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Construction, X, Sparkles } from "lucide-react";
 import ArtikelHero from "@/components/sections/artikel/ArtikelHero";
 import ArtikelGrid from "@/components/sections/artikel/ArtikelGrid";
+import TanyaJawabStaticGrid from "@/components/sections/artikel/TanyaJawabStaticGrid";
 
 /* =========================================
    ArtikelInner - Reads URL search params
@@ -141,10 +142,14 @@ function ArtikelInner() {
         onSearchChange={handleSearchChange}
         initialSearch={searchQuery}
       />
-      <ArtikelGrid
-        selectedCategory={selectedCategory}
-        searchQuery={searchQuery}
-      />
+      {selectedCategory === "Tanya Jawab" ? (
+        <TanyaJawabStaticGrid searchQuery={searchQuery} />
+      ) : (
+        <ArtikelGrid
+          selectedCategory={selectedCategory}
+          searchQuery={searchQuery}
+        />
+      )}
     </main>
   );
 }

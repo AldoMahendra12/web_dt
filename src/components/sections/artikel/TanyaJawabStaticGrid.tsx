@@ -10,8 +10,7 @@ import {
   MessageCircleQuestion,
   Maximize2,
   X,
-  HelpCircle,
-} from "lucide-react";
+  } from "lucide-react";
 import {
   TANYA_JAWAB_DATA,
   type TanyaJawabEntry,
