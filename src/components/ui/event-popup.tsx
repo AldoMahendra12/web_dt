@@ -1,141 +1,190 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { X, ArrowRight, CalendarDays } from "lucide-react";
+import {
+  X,
+  CalendarDays,
+  MapPin,
+  Clock,
+  ArrowRight,
+  Sparkles,
+} from "lucide-react";
+import { EVENTS_DATA } from "@/data/events";
 
 /* =========================================
-   EventPopup — Popup Event Homepage
-
-   Cara mengganti event:
-   1. Upload poster ke /public/assets/
-   2. Ubah EVENT_CONFIG di bawah:
-      - image   : path poster dari /public/
-      - link    : link pendaftaran
-      - alt     : deskripsi gambar
-      - enabled : false = popup mati
+   EventPopup — Auto-show on page load/refresh
+   Tampil ketika ada event upcoming.
+   Tidak memakai localStorage sehingga
+   akan muncul setiap kali halaman di-refresh.
    ========================================= */
-
-const EVENT_CONFIG = {
-  enabled: false,
-  image: "/assets/kajianmuslimah-dt.jpeg",
-  /** Deskripsi alt text gambar */
-  alt: "Poster Event Kajian Muslimah - Dakwah Tulungagung",
-  /** Link pendaftaran / info event */
-  link: "https://s.id/kajianmuslimah-dt",
-  buttonText: "Daftar Sekarang",
-};
 
 export default function EventPopup() {
   const [visible, setVisible] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
+  const upcomingEvents = EVENTS_DATA.filter((e) => e.isUpcoming);
+  const featured = upcomingEvents[0]; // Tampilkan event upcoming pertama
+
+  // Delay sedikit supaya tidak langsung muncul begitu halaman load
   useEffect(() => {
-    if (!EVENT_CONFIG.enabled) return;
-    const timer = setTimeout(() => setVisible(true), 300);
+    if (!featured) return;
+    setMounted(true);
+    const timer = setTimeout(() => setVisible(true), 800);
     return () => clearTimeout(timer);
-  }, []);
+  }, [featured]);
 
-  const handleClose = () => setVisible(false);
+  // Lock body scroll saat popup terbuka
+  useEffect(() => {
+    if (visible) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [visible]);
 
+  // Escape key
   useEffect(() => {
     if (!visible) return;
     const handler = (e: KeyboardEvent) => {
-      if (e.key === "Escape") handleClose();
+      if (e.key === "Escape") setVisible(false);
     };
-    document.addEventListener("keydown", handler);
-    return () => document.removeEventListener("keydown", handler);
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
   }, [visible]);
 
-  useEffect(() => {
-    document.body.style.overflow = visible ? "hidden" : "";
-    return () => { document.body.style.overflow = ""; };
-  }, [visible]);
-
-  if (!EVENT_CONFIG.enabled || !visible) return null;
+  if (!mounted || !featured) return null;
 
   return (
     <div
-      className="fixed inset-0 z-[9998] flex items-center justify-center px-4"
-      role="dialog"
-      aria-modal="true"
+      className={[
+        "fixed inset-0 z-[9998] flex items-center justify-center p-4 sm:p-6 transition-opacity duration-300",
+        visible ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none",
+      ].join(" ")}
     >
       {/* Backdrop */}
       <div
-        className="absolute inset-0 bg-black/80 backdrop-blur-sm"
-        onClick={handleClose}
+        className="absolute inset-0 bg-black/70 backdrop-blur-sm"
+        onClick={() => setVisible(false)}
       />
 
-      {/* Panel — no background, just poster + floating buttons */}
+      {/* Modal Card */}
       <div
-        className="relative z-10 w-full max-w-[360px] flex flex-col items-center"
-        style={{ animation: "fadeInScale 0.35s cubic-bezier(0.34,1.56,0.64,1) both" }}
+        className={[
+          "relative w-full max-w-md bg-white rounded-3xl shadow-2xl overflow-hidden z-10 transition-all duration-500",
+          visible ? "scale-100 translate-y-0 opacity-100" : "scale-95 translate-y-4 opacity-0",
+        ].join(" ")}
       >
-        {/* Close Button */}
-        <button
-          onClick={handleClose}
-          className="absolute -top-3 -right-3 z-20 w-9 h-9 rounded-full bg-white/90 text-gray-700 flex items-center justify-center shadow-xl hover:bg-white hover:scale-110 transition-all"
-          aria-label="Tutup popup"
-        >
-          <X className="w-4 h-4" />
-        </button>
+        {/* Top ribbon */}
+        <div className="relative bg-gradient-to-r from-primary to-emerald-600 px-5 py-3.5 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <Sparkles className="w-4 h-4 text-amber-300 animate-pulse" />
+            <span className="text-white text-xs font-extrabold uppercase tracking-widest">
+              Event Mendatang
+            </span>
+            {/* Ping dot */}
+            <span className="relative flex h-2 w-2 ml-1">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-300 opacity-75" />
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-400" />
+            </span>
+          </div>
+          <button
+            type="button"
+            onClick={() => setVisible(false)}
+            className="p-1.5 rounded-full text-white/70 hover:text-white hover:bg-white/15 transition-colors"
+            aria-label="Tutup"
+          >
+            <X className="w-4 h-4" />
+          </button>
+        </div>
 
-        {/* Poster — height constrained so it never overflows screen */}
-        <div
-          className="w-full rounded-2xl overflow-hidden shadow-2xl"
-          style={{ maxHeight: "calc(100svh - 140px)" }}
-        >
-          <img
-            src={EVENT_CONFIG.image}
-            alt={EVENT_CONFIG.alt}
-            style={{
-              width: "100%",
-              height: "auto",
-              maxHeight: "calc(100svh - 140px)",
-              objectFit: "contain",
-              display: "block",
-            }}
+        {/* Poster */}
+        <div className="relative w-full bg-bg-light overflow-hidden">
+          <Image
+            src={featured.poster}
+            alt={`Poster ${featured.title}`}
+            width={600}
+            height={600}
+            className="w-full object-contain block"
+            style={{ maxHeight: "260px", objectFit: "contain" }}
+            priority
           />
+          {/* Gratis badge */}
+          {featured.isFree && (
+            <span className="absolute top-3 left-3 px-2.5 py-1 rounded-full text-[10px] font-extrabold bg-amber-500 text-white shadow-md uppercase tracking-wide">
+              Gratis
+            </span>
+          )}
         </div>
 
-        {/* CTA Buttons — floating below poster, no card/bg */}
-        <div className="flex items-center gap-3 mt-4 w-full">
-          <a
-            href={EVENT_CONFIG.link}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={handleClose}
-            className="flex-1 inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-primary text-white font-bold text-sm shadow-lg hover:bg-primary/90 active:scale-95 transition-all"
-          >
-            {EVENT_CONFIG.buttonText}
-            <ArrowRight className="w-4 h-4" />
-          </a>
+        {/* Info */}
+        <div className="px-5 pt-4 pb-5 space-y-3">
+          {/* Category pill */}
+          <span className="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-widest text-primary bg-primary/10 px-2.5 py-1 rounded-full">
+            {featured.category}
+          </span>
 
-          <Link
-            href="/events"
-            onClick={handleClose}
-            className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-white/15 text-white font-bold text-sm border border-white/30 hover:bg-white/25 active:scale-95 transition-all backdrop-blur-sm whitespace-nowrap"
+          {/* Title */}
+          <h2 className="text-base font-extrabold text-text-heading leading-snug">
+            {featured.title}
+          </h2>
+
+          {/* Details row */}
+          <div className="flex flex-col gap-1.5 text-xs text-text-light">
+            <div className="flex items-center gap-2">
+              <CalendarDays className="w-3.5 h-3.5 text-primary flex-shrink-0" />
+              <span>{featured.date}</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Clock className="w-3.5 h-3.5 text-primary flex-shrink-0" />
+              <span>{featured.time}</span>
+            </div>
+            <div className="flex items-start gap-2">
+              <MapPin className="w-3.5 h-3.5 text-primary flex-shrink-0 mt-0.5" />
+              <span>
+                {featured.location}
+                {featured.locationDetail && (
+                  <span className="text-text-faint"> — {featured.locationDetail}</span>
+                )}
+              </span>
+            </div>
+          </div>
+
+          {/* CTA Buttons */}
+          <div className="flex gap-2.5 pt-1">
+            <a
+              href={featured.registrationLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => setVisible(false)}
+              className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-gradient-to-br from-primary to-emerald-700 text-white font-bold text-sm hover:opacity-90 active:scale-95 transition-all shadow-md shadow-primary/20"
+            >
+              Daftar Sekarang
+              <ArrowRight className="w-4 h-4" />
+            </a>
+            <Link
+              href="/events"
+              onClick={() => setVisible(false)}
+              className="px-4 py-3 rounded-xl border border-primary/25 text-primary font-semibold text-sm hover:bg-primary/5 transition-colors text-center whitespace-nowrap"
+            >
+              Lihat Semua
+            </Link>
+          </div>
+
+          {/* Dismiss */}
+          <button
+            type="button"
+            onClick={() => setVisible(false)}
+            className="w-full text-center text-xs text-text-faint hover:text-text-muted transition-colors pt-0.5"
           >
-            <CalendarDays className="w-4 h-4" />
-            Events
-          </Link>
+            Tutup pengumuman ini
+          </button>
         </div>
-
-        {/* Skip */}
-        <button
-          onClick={handleClose}
-          className="mt-3 text-white/60 text-xs hover:text-white/90 transition-colors"
-        >
-          Lewati
-        </button>
       </div>
-
-      <style dangerouslySetInnerHTML={{__html: `
-        @keyframes fadeInScale {
-          from { opacity: 0; transform: scale(0.88); }
-          to   { opacity: 1; transform: scale(1); }
-        }
-      `}} />
     </div>
   );
 }
