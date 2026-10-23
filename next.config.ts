@@ -20,6 +20,16 @@ const nextConfig: NextConfig = {
         hostname: process.env.DIRECTUS_HOSTNAME ?? "cms.dakwahtulungagung.or.id",
         pathname: "/assets/**",
       },
+      {
+        protocol: "https",
+        hostname: "img.youtube.com",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "i.ytimg.com",
+        pathname: "/**",
+      },
     ],
   },
 };
