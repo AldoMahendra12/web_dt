@@ -3,57 +3,16 @@
 import Image from "next/image";
 import Link from "next/link";
 import { CalendarDays, MapPin, Clock, ArrowRight, Tag } from "lucide-react";
-
-/* =========================================
-   EVENTS_DATA — Tambah/hapus event di sini
-   
-   Cara menambah event baru:
-   - Tambahkan objek baru ke array EVENTS_DATA
-   - Upload poster ke /public/assets/
-   - Isi semua field yang diperlukan
-   ========================================= */
-
-interface Event {
-  id: string;
-  title: string;
-  category: string;
-  date: string;
-  time: string;
-  location: string;
-  locationDetail?: string;
-  poster: string;
-  registrationLink: string;
-  isFree: boolean;
-  isUpcoming: boolean;
-  description?: string;
-}
-
-const EVENTS_DATA: Event[] = [
-  {
-    id: "kajian-muslimah-090826",
-    title: "Kajian Khusus Muslimah: Pola Asuh Anak Tangguh di Akhir Zaman",
-    category: "Kajian Muslimah",
-    date: "Ahad, 9 Agustus 2026",
-    time: "08.00 – 11.30 WIB",
-    location: "Masjid Al Hidayah",
-    locationDetail: "Ds. Bangoan, Kec. Kedungwaru, Tulungagung",
-    poster: "/assets/kajianmuslimah-dt.jpeg",
-    registrationLink: "https://s.id/kajianmuslimah-dt",
-    isFree: true,
-    isUpcoming: false,
-    description:
-      "Bersama Ustadzah Yasaroh Ummu Unaisah. Gratis untuk 200 pendaftar pertama. Free seminar kit & snack.",
-  },
-];
+import { EVENTS_DATA, type EventItem } from "@/data/events";
 
 /* =========================================
    EventCard Component
    ========================================= */
-function EventCard({ event }: { event: Event }) {
+function EventCard({ event }: { event: EventItem }) {
   return (
-    <div className="bg-white rounded-2xl overflow-hidden border border-border-default shadow-sm hover:shadow-lg transition-all duration-300 group flex flex-col">
+    <div className="bg-white rounded-2xl border border-border-default shadow-sm hover:shadow-lg transition-all duration-300 group flex flex-col overflow-hidden">
       {/* Poster */}
-      <div className="relative overflow-hidden">
+      <div className="relative overflow-hidden bg-bg-light">
         <Image
           src={event.poster}
           alt={`Poster ${event.title}`}
@@ -66,12 +25,13 @@ function EventCard({ event }: { event: Event }) {
         {/* Badges */}
         <div className="absolute top-4 left-4 flex flex-col gap-2">
           {event.isUpcoming && (
-            <span className="px-3 py-1 rounded-full text-[10px] font-bold bg-emerald-500 text-white shadow">
-              ● Upcoming
+            <span className="px-3 py-1 rounded-full text-[10px] font-bold bg-emerald-500 text-white shadow-md flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+              Upcoming
             </span>
           )}
           {event.isFree && (
-            <span className="px-3 py-1 rounded-full text-[10px] font-bold bg-amber-500 text-white shadow">
+            <span className="px-3 py-1 rounded-full text-[10px] font-bold bg-amber-500 text-white shadow-md">
               GRATIS
             </span>
           )}

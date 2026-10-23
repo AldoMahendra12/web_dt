@@ -3,10 +3,11 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { CalendarDays } from "lucide-react";
 import Button from "@/components/ui/button";
 import type { NavItem } from "@/types";
 import { useDonasiDialog } from "@/components/ui/donasi-provider";
-import { useTanyaDialog } from "@/components/ui/tanya-provider";
+import { hasUpcomingEvents } from "@/data/events";
 
 /* =========================================
    NavBar — Section Component
@@ -26,7 +27,7 @@ export default function NavBar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const { openDonasi } = useDonasiDialog();
-  const { openTanya } = useTanyaDialog();
+  const hasUpcoming = hasUpcomingEvents();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
@@ -82,13 +83,32 @@ export default function NavBar() {
         {/* Right: CTA + Mobile Hamburger */}
         <div className="flex items-center gap-4">
           <div className="hidden lg:flex items-center gap-3">
-            <Button
-              onClick={openTanya}
-              variant="secondary"
-              className="px-4 py-2 border border-primary/20 text-primary hover:border-primary/50"
-            >
-              Tanya Ustadz
-            </Button>
+            {hasUpcoming ? (
+              <Link
+                href="/events"
+                className="relative group inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-sm font-semibold bg-primary/5 text-primary border border-primary/25 hover:border-primary hover:bg-primary/10 transition-all duration-300 shadow-sm hover:shadow"
+              >
+                {/* Animated ping dot indicator */}
+                <span className="relative flex h-2.5 w-2.5">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75" />
+                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-amber-500" />
+                </span>
+                <CalendarDays className="w-4 h-4 text-primary group-hover:scale-110 transition-transform duration-300" />
+                <span>Events</span>
+                <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-extrabold bg-gradient-to-r from-amber-500 to-amber-600 text-white leading-none shadow-sm animate-pulse tracking-wide uppercase">
+                  New
+                </span>
+              </Link>
+            ) : (
+              <Link
+                href="/events"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold text-primary border border-primary/20 hover:border-primary/50 hover:bg-primary/5 transition-all duration-300"
+              >
+                <CalendarDays className="w-4 h-4 text-primary" />
+                <span>Events</span>
+              </Link>
+            )}
+
             <Button onClick={openDonasi} variant="primary">
               Donasi Sekarang
             </Button>
@@ -143,13 +163,32 @@ export default function NavBar() {
               </li>
             ))}
             <li className="pt-4 mt-2 border-t border-border-default flex flex-col gap-2">
-              <Button
-                onClick={() => { setMobileOpen(false); openTanya(); }}
-                variant="secondary"
-                className="w-full border border-primary/20 text-primary"
-              >
-                Tanya Ustadz
-              </Button>
+              {hasUpcoming ? (
+                <Link
+                  href="/events"
+                  onClick={() => setMobileOpen(false)}
+                  className="w-full inline-flex items-center justify-center gap-2.5 px-4 py-2.5 rounded-xl text-sm font-semibold bg-primary/5 text-primary border border-primary/30 hover:bg-primary/10 transition-all duration-300"
+                >
+                  <span className="relative flex h-2.5 w-2.5">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75" />
+                    <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-amber-500" />
+                  </span>
+                  <CalendarDays className="w-4 h-4 text-primary" />
+                  <span>Events</span>
+                  <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-extrabold bg-gradient-to-r from-amber-500 to-amber-600 text-white leading-none shadow-sm animate-pulse tracking-wide uppercase">
+                    New
+                  </span>
+                </Link>
+              ) : (
+                <Link
+                  href="/events"
+                  onClick={() => setMobileOpen(false)}
+                  className="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold text-primary border border-primary/20 hover:border-primary/50 hover:bg-primary/5 transition-all duration-300"
+                >
+                  <CalendarDays className="w-4 h-4 text-primary" />
+                  <span>Events</span>
+                </Link>
+              )}
               <Button
                 onClick={() => { setMobileOpen(false); openDonasi(); }}
                 variant="primary"
