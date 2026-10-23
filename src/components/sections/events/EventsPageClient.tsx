@@ -76,9 +76,12 @@ function EventCard({
         {/* Description */}
         {event.description && (
           event.isUpcoming ? (
-            <p className="text-sm text-text-muted leading-relaxed">
-              {event.description}
-            </p>
+            /* Upcoming: show first 3 paragraphs, preserve newlines */
+            <div className="text-sm text-text-muted leading-relaxed space-y-1.5 line-clamp-[7]">
+              {event.description.split("\n\n").slice(0, 3).map((para, i) => (
+                <p key={i} className="whitespace-pre-line">{para}</p>
+              ))}
+            </div>
           ) : (
             /* Past event — only show first paragraph; full text visible in modal */
             <p className="text-sm text-text-muted leading-relaxed line-clamp-4">

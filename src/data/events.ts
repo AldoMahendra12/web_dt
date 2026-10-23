@@ -29,6 +29,39 @@ export interface EventItem {
 
 export const EVENTS_DATA: EventItem[] = [
   {
+    id: "kajian-anak-011126",
+    title: '✨ Kajian Anak: "Asyiknya Bermain Bersama" & Bedah Buku',
+    category: "Kajian Anak",
+    date: "Ahad, 1 November 2026",
+    time: "07.30 – 10.00 WIB",
+    location: "The Nice Playland Tulungagung",
+    locationDetail: "Ds. Ngujang, Kec. Kedungwaru, Tulungagung",
+    poster: "/assets/events/KA_kak_erlan.webp",
+    registrationLink: "https://wa.me/6285731110003",
+    isFree: false,
+    isUpcoming: true,
+    description: `Ayah dan Bunda, bingung mau ajak si kecil ke mana di akhir pekan? Yuk, ajak Ananda ikutan serunya bermain sambil belajar adab dan ilmu agama di event kajian Anak!
+
+InsyaAllah bersama:
+🎙️ Kak Erlan Iskandar, S.T., M.Psi
+
+📅 Ahad, 1 November 2026
+⏰ Pukul 07.30 – 10.00 WIB
+🏰 The Nice Playland Tulungagung
+
+Untuk anak usia 4–12 tahun
+🎟️ HTM: Rp 35.000/orang* (*Gratis untuk anak dengan tinggi <80 cm)
+
+📚 OPEN ORDER BUNDLING BUKU
+Siapkan bacaan bermanfaat untuk buah hati dengan bundling dua buku karya Kak Erlan. Harga spesial bundling: Rp 100.000,-
+
+Yuk, siapkan bukunya sebelum kajian agar bisa mengikuti sesi bedah buku dengan lebih maksimal!
+
+📲 Pendaftaran & info: wa.me/6285731110003 (Admin Dakwah Tulungagung)
+
+Baarakallahu fiikum 🌷`,
+  },
+  {
     id: "kajian-muslimah-090826",
     title: "Kajian Khusus Muslimah: Pola Asuh Anak Tangguh di Akhir Zaman",
     category: "Kajian Muslimah",
