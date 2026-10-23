@@ -3,8 +3,12 @@
    
    Untuk menambah event baru:
    1. Tambahkan objek baru ke array EVENTS_DATA
-   2. Set `isUpcoming: true` agar tombol di navbar
-      otomatis menampilkan animasi event baru
+   2. Set `isUpcoming: true` jika event belum berlangsung
+      (akan otomatis memicu animasi radar & badge "New" di navbar)
+   3. Jika event sudah selesai:
+      - Set `isUpcoming: false`
+      - Masukkan path video/foto ke `documentationUrl`
+        (misal: "/assets/events/ustadzah_yasaroh.mp4")
    ========================================= */
 
 export interface EventItem {
@@ -20,6 +24,7 @@ export interface EventItem {
   isFree: boolean;
   isUpcoming: boolean;
   description?: string;
+  documentationUrl?: string;
 }
 
 export const EVENTS_DATA: EventItem[] = [
@@ -37,6 +42,7 @@ export const EVENTS_DATA: EventItem[] = [
     isUpcoming: false,
     description:
       "Bersama Ustadzah Yasaroh Ummu Unaisah. Gratis untuk 200 pendaftar pertama. Free seminar kit & snack.",
+    documentationUrl: "/assets/events/ustadzah_yasaroh.mp4",
   },
 ];
 
