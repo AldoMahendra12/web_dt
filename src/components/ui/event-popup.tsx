@@ -41,7 +41,6 @@ export default function EventPopup() {
   if (!mounted || !featured) return null;
 
   return (
-    /* Overlay */
     <div
       aria-modal="true"
       role="dialog"
@@ -57,15 +56,15 @@ export default function EventPopup() {
         onClick={() => setVisible(false)}
       />
 
-      {/* Card */}
+      {/* Card — outer: shadow + scale animation, NO overflow-hidden */}
       <div
         className={[
-          "relative z-10 w-full max-w-2xl bg-white rounded-2xl shadow-2xl overflow-hidden",
+          "relative z-10 w-full max-w-2xl bg-white rounded-2xl shadow-2xl",
           "transition-all duration-500",
           visible ? "translate-y-0 scale-100 opacity-100" : "translate-y-6 scale-95 opacity-0",
         ].join(" ")}
       >
-        {/* Close button */}
+        {/* Close button (outside flex, absolutely positioned) */}
         <button
           type="button"
           onClick={() => setVisible(false)}
@@ -75,36 +74,39 @@ export default function EventPopup() {
           <X className="w-4 h-4" />
         </button>
 
-        {/* "Upcoming" floating badge */}
+        {/* "Upcoming" badge (absolutely positioned) */}
         <div className="absolute top-3 left-3 z-20 flex items-center gap-1.5 bg-primary px-3 py-1 rounded-full shadow-md">
           <span className="relative flex h-1.5 w-1.5">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-300 opacity-80" />
             <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-amber-400" />
           </span>
-          <span className="text-[10px] font-extrabold text-white uppercase tracking-wider">Event Mendatang</span>
+          <span className="text-[10px] font-extrabold text-white uppercase tracking-wider">
+            Event Mendatang
+          </span>
         </div>
 
-        <div className="flex flex-col sm:flex-row">
-          {/* ── Left: Poster — full, not cropped ── */}
-          <div className="relative sm:w-[48%] bg-bg-light flex-shrink-0 flex items-center justify-center">
+        {/* Inner flex wrapper — overflow-hidden lives HERE, with rounded-2xl */}
+        <div className="flex flex-col sm:flex-row rounded-2xl overflow-hidden">
+
+          {/* ── Left: Poster — full image, no crop ── */}
+          <div className="relative sm:w-[48%] flex-shrink-0 bg-bg-light flex items-center justify-center">
             <Image
               src={featured.poster}
               alt={`Poster ${featured.title}`}
               width={600}
               height={800}
-              className="w-full object-contain block"
-              style={{ maxHeight: "420px" }}
+              className="w-full h-full object-contain block"
+              style={{ maxHeight: "420px", minHeight: "240px" }}
               priority
             />
-            {/* HTM / Gratis badge */}
-            {!featured.isFree && (
-              <span className="absolute bottom-3 left-3 px-2.5 py-1 rounded-full text-[10px] font-bold bg-amber-500 text-white shadow">
-                Berbayar
-              </span>
-            )}
-            {featured.isFree && (
+            {/* Gratis / Berbayar badge */}
+            {featured.isFree ? (
               <span className="absolute bottom-3 left-3 px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-500 text-white shadow">
                 Gratis
+              </span>
+            ) : (
+              <span className="absolute bottom-3 left-3 px-2.5 py-1 rounded-full text-[10px] font-bold bg-amber-500 text-white shadow">
+                Berbayar
               </span>
             )}
           </div>
