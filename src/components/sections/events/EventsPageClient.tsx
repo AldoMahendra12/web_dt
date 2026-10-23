@@ -75,9 +75,16 @@ function EventCard({
 
         {/* Description */}
         {event.description && (
-          <p className="text-sm text-text-muted leading-relaxed">
-            {event.description}
-          </p>
+          event.isUpcoming ? (
+            <p className="text-sm text-text-muted leading-relaxed">
+              {event.description}
+            </p>
+          ) : (
+            /* Past event — only show first paragraph; full text visible in modal */
+            <p className="text-sm text-text-muted leading-relaxed line-clamp-4">
+              {event.description.split("\n\n")[0]}
+            </p>
+          )
         )}
 
         {/* Details */}
@@ -301,6 +308,17 @@ export default function EventsPageClient() {
                 </div>
               )}
             </div>
+
+            {/* Summary text inside modal */}
+            {activeDocEvent.description && (
+              <div className="px-4 sm:px-6 py-4 border-t border-white/10 bg-stone-900/80 overflow-y-auto max-h-44">
+                {activeDocEvent.description.split("\n\n").map((para, i) => (
+                  <p key={i} className="text-xs sm:text-sm text-stone-300 leading-relaxed mb-2 last:mb-0">
+                    {para}
+                  </p>
+                ))}
+              </div>
+            )}
 
             {/* Footer */}
             <div className="px-4 sm:px-6 py-3 border-t border-white/10 bg-stone-950/80 flex items-center justify-between text-xs text-stone-400">

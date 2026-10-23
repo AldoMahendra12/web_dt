@@ -40,8 +40,17 @@ export const EVENTS_DATA: EventItem[] = [
     registrationLink: "https://s.id/kajianmuslimah-dt",
     isFree: true,
     isUpcoming: false,
-    description:
-      "Bersama Ustadzah Yasaroh Ummu Unaisah. Gratis untuk 200 pendaftar pertama. Free seminar kit & snack.",
+    description: `Alhamdulillah atas pertolongan Allah Ta'ala, Kajian Muslimah bersama Ustadzah Yasaroh Ummu Unaisah حفظها الله تعالى dengan tema “Pola Asuh Anak Tangguh di Akhir Zaman” telah terlaksana pada Ahad, 9 Agustus 2026 di Masjid Al Hidayah, Bangoan.
+
+"Kajian di masjid, dengan lokasi yang nyaman, tenang, anak-anak juga ada lokasi khusus dan ada fasilitas yang edukatif, kemudian materi yang disampaikan ustadzah juga mudah diserap, harapannya semoga kajian muslimah ini bisa rutin dilaksanakan" testimoni yang diberikan oleh salah satu peserta kajian muslimah.
+
+Kajian muslimah diadakan untuk mempererat tali silaturahmi antar keluarga muslim khususnya para ummahat di Tulungagung melalui kegiatan yang bermanfaat, menyenangkan dan tentunya edukatif.
+
+Jazakumullahu khairan kepada seluruh peserta, donatur, muhsinin, dan panitia atas doa, dukungan, waktu, tenaga, dan kontribusinya sehingga kegiatan ini dapat terlaksana dengan baik.
+
+Semoga Allah Ta'ala membalas segala kebaikan dan menjadikannya sebagai amal jariyah.
+
+Baarakallahu fiikum🌷`,
     documentationUrl: "/assets/events/ustadzah_yasaroh.mp4",
   },
 ];
