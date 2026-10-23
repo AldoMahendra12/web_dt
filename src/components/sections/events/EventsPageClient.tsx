@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { CalendarDays, MapPin, Clock, ArrowRight, Tag } from "lucide-react";
+import { CalendarDays, MapPin, Clock, ArrowRight, Tag, CheckCircle2 } from "lucide-react";
 import { EVENTS_DATA, type EventItem } from "@/data/events";
 
 /* =========================================
@@ -24,10 +24,15 @@ function EventCard({ event }: { event: EventItem }) {
         />
         {/* Badges */}
         <div className="absolute top-4 left-4 flex flex-col gap-2">
-          {event.isUpcoming && (
+          {event.isUpcoming ? (
             <span className="px-3 py-1 rounded-full text-[10px] font-bold bg-emerald-500 text-white shadow-md flex items-center gap-1.5">
               <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
               Upcoming
+            </span>
+          ) : (
+            <span className="px-3 py-1 rounded-full text-[10px] font-bold bg-gray-700/80 backdrop-blur-sm text-white shadow-md flex items-center gap-1">
+              <CheckCircle2 className="w-3 h-3 text-emerald-400" />
+              Selesai
             </span>
           )}
           {event.isFree && (
@@ -81,15 +86,21 @@ function EventCard({ event }: { event: EventItem }) {
 
         {/* CTA */}
         <div className="pt-3 mt-auto">
-          <a
-            href={event.registrationLink}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="w-full inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-primary text-white font-bold text-sm hover:bg-primary/90 active:scale-95 transition-all shadow-md"
-          >
-            Daftar Sekarang
-            <ArrowRight className="w-4 h-4" />
-          </a>
+          {event.isUpcoming ? (
+            <a
+              href={event.registrationLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-primary text-white font-bold text-sm hover:bg-primary/90 active:scale-95 transition-all shadow-md"
+            >
+              Daftar Sekarang
+              <ArrowRight className="w-4 h-4" />
+            </a>
+          ) : (
+            <div className="w-full text-center py-2.5 px-4 rounded-xl bg-gray-100 text-text-muted font-medium text-xs">
+              Event Telah Selesai Dilaksanakan
+            </div>
+          )}
         </div>
       </div>
     </div>
@@ -146,10 +157,10 @@ export default function EventsPageClient() {
           {pastEvents.length > 0 && (
             <div>
               <h2 className="text-2xl font-extrabold text-text-heading mb-8 flex items-center gap-3">
-                <span className="w-2 h-6 rounded-full bg-gray-300 inline-block" />
+                <span className="w-2 h-6 rounded-full bg-primary/40 inline-block" />
                 Event Sebelumnya
               </h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 opacity-70">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {pastEvents.map((event) => (
                   <EventCard key={event.id} event={event} />
                 ))}

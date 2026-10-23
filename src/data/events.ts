@@ -34,7 +34,7 @@ export const EVENTS_DATA: EventItem[] = [
     poster: "/assets/kajianmuslimah-dt.jpeg",
     registrationLink: "https://s.id/kajianmuslimah-dt",
     isFree: true,
-    isUpcoming: true,
+    isUpcoming: false,
     description:
       "Bersama Ustadzah Yasaroh Ummu Unaisah. Gratis untuk 200 pendaftar pertama. Free seminar kit & snack.",
   },
