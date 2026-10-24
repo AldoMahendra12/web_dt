@@ -409,42 +409,44 @@ export default function JadwalKajianClient() {
               exit={{ scale: 0.9, opacity: 0 }}
               transition={{ duration: 0.25 }}
               onClick={(e) => e.stopPropagation()}
-              className="relative z-10 w-full max-w-[500px] max-h-[90vh] bg-gray-900 rounded-3xl overflow-hidden shadow-2xl flex flex-col border border-white/20"
+              className="relative z-10 w-fit max-w-[94vw] sm:max-w-xl max-h-[94vh] bg-gray-900 rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl flex flex-col border border-white/20"
             >
               {/* Header Modal */}
-              <div className="p-4 bg-gray-900/90 border-b border-white/10 flex items-center justify-between">
-                <div>
-                  <h4 className="text-white text-sm font-bold line-clamp-1">
+              <div className="px-4 py-3 sm:px-5 sm:py-3.5 bg-gray-900/95 border-b border-white/10 flex items-center justify-between gap-3 shrink-0">
+                <div className="min-w-0 pr-2">
+                  <h4 className="text-white text-sm font-bold truncate">
                     {activePoster.title}
                   </h4>
-                  <p className="text-white/60 text-xs">{activePoster.ustadz}</p>
+                  <p className="text-white/60 text-xs truncate">{activePoster.ustadz}</p>
                 </div>
                 <button
                   onClick={() => setActivePoster(null)}
-                  className="p-2 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors"
+                  className="p-1.5 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors shrink-0"
+                  aria-label="Tutup poster"
                 >
                   <X className="w-5 h-5" />
                 </button>
               </div>
 
-              {/* Poster Image Container */}
-              <div className="relative w-full flex-1 overflow-y-auto p-4 flex items-center justify-center bg-black/60">
+              {/* Poster Image Container - Full poster without cutoff */}
+              <div className="relative flex-1 min-h-0 p-2 sm:p-3.5 flex items-center justify-center bg-black/70 overflow-hidden">
                 <Image
                   src={activePoster.url}
                   alt={activePoster.title}
-                  width={600}
-                  height={800}
-                  className="w-full h-auto rounded-xl object-contain shadow-lg"
+                  width={1024}
+                  height={1280}
+                  className="max-h-[68vh] sm:max-h-[74vh] w-auto max-w-full rounded-lg sm:rounded-xl object-contain shadow-2xl block"
+                  priority
                 />
               </div>
 
               {/* Footer Modal Actions */}
-              <div className="p-4 bg-gray-900 border-t border-white/10 flex items-center justify-between gap-3">
+              <div className="px-4 py-3 sm:px-5 sm:py-3.5 bg-gray-900/95 border-t border-white/10 flex items-center justify-between gap-3 shrink-0">
                 <a
                   href={activePoster.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex-1 py-2.5 px-4 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-bold transition-colors flex items-center justify-center gap-2"
+                  className="flex-1 py-2 px-3 sm:px-4 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-bold transition-colors flex items-center justify-center gap-2 whitespace-nowrap"
                 >
                   <ExternalLink className="w-4 h-4" />
                   <span>Buka Tab Baru</span>
@@ -452,7 +454,7 @@ export default function JadwalKajianClient() {
                 <a
                   href={activePoster.url}
                   download
-                  className="flex-1 py-2.5 px-4 rounded-xl bg-primary hover:bg-primary/90 text-white text-xs font-bold transition-colors flex items-center justify-center gap-2"
+                  className="flex-1 py-2 px-3 sm:px-4 rounded-xl bg-primary hover:bg-primary/90 text-white text-xs font-bold transition-colors flex items-center justify-center gap-2 whitespace-nowrap"
                 >
                   <Download className="w-4 h-4" />
                   <span>Unduh Poster</span>
