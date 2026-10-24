@@ -6,10 +6,18 @@ import Link from "next/link";
 import { X, CalendarDays, MapPin, Clock, ArrowRight } from "lucide-react";
 import { EVENTS_DATA } from "@/data/events";
 
-/* =========================================
-   EventPopup — Auto-show on page load/refresh
-   Side-by-side card with 100% uncropped poster.
-   ========================================= */
+/* ===================================================================
+   EVENT POPUP — DESAIN RESMI TERKUNCI (LOCKED)
+   
+   PERHATIAN:
+   Desain card landscape, rasio poster, margin inset, dan tata letak
+   komponen ini SUDAH RESMI DAN FINAL. JANGAN DIUBAH-UBAH.
+   
+   Untuk mengganti event/poster/deskripsi di masa mendatang, cukup
+   ubah file data di `src/data/events.ts`. Komponen ini akan otomatis
+   mengambil event berstatus `isUpcoming: true` dan menampilkannya
+   dengan format yang sudah sempurna ini.
+   =================================================================== */
 
 export default function EventPopup() {
   const [visible, setVisible] = useState(false);

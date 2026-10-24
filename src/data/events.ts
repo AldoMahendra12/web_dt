@@ -1,15 +1,33 @@
-/* =========================================
+/* ===================================================================
    EVENTS DATA — Dakwah Tulungagung
    
-   Untuk menambah event baru:
-   1. Tambahkan objek baru ke array EVENTS_DATA
-   2. Set `isUpcoming: true` jika event belum berlangsung
-      (akan otomatis memicu animasi radar & badge "New" di navbar)
-   3. Jika event sudah selesai:
-      - Set `isUpcoming: false`
-      - Masukkan path video/foto ke `documentationUrl`
+   PANDUAN KONTEN EVENT:
+   Desain tampilan (popup, card, navbar) sudah DIKUNCI / LOCKED
+   sesuai standar resmi. Untuk event mendatang berikutnya, Anda
+   CUKUP mengubah / menambah data di file ini saja tanpa perlu
+   mengubah kode styling / layout komponen.
+
+   CARA MENGELOLA EVENT:
+   1. Event Baru / Mendatang (Upcoming):
+      - Simpan poster di: /public/assets/events/nama_poster.webp
+      - Tambahkan objek baru di array EVENTS_DATA paling atas
+      - Set `isUpcoming: true`
+      - Otomatis:
+        a. Popup modal di web langsung menampilkan poster & info ini
+        b. Tombol "Events" di navbar menyalakan animasi radar & badge "New"
+        c. Muncul di section "Event Mendatang" di halaman /events
+
+   2. Ketika Event Sudah Selesai (Past Event):
+      - Ubah `isUpcoming: false`
+      - Jika ada video/foto dokumentasi, isi `documentationUrl`
         (misal: "/assets/events/ustadzah_yasaroh.mp4")
-   ========================================= */
+      - Isi `description` dengan laporan/testimoni kegiatan
+      - Otomatis:
+        a. Popup modal tidak akan muncul (jika tidak ada event upcoming lain)
+        b. Tombol di navbar kembali normal tanpa animasi
+        c. Event pindah ke "Event Sebelumnya" dan tombolnya otomatis
+           berubah menjadi "Dokumentasi" (bisa putar video)
+   =================================================================== */
 
 export interface EventItem {
   id: string;
